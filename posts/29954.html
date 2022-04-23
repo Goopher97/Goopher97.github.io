@@ -1,0 +1,1660 @@
+<!DOCTYPE html><html lang="zh-CN"><head hexo-theme="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1"><meta charset="utf-8"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="preload" href="/css/first.css" as="style"><title>使用Scriptable创建小组件 - GOOPHER&#39;s Blog</title><meta name="keywords" content="IOS小组件,电信小组件"><link rel="alternate" href="/atom.xml" title="GOOPHER's Blog" type="application/atom+xml"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/favicon/browserconfig.xml"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/%E7%8C%AB.png"><link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/favicon_32x32.ico"><link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/favicon_16x16.ico"><link rel="manifest" href="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/favicon/site.webmanifest"><link rel="mask-icon" href="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/%E7%8C%AB.svg" color="#5bbad5"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/favicon_32x32.ico"><link rel="stylesheet" href="/css/first.css"><link rel="stylesheet" href="/css/style.css" media="print" onload='this.media="all",this.onload=null'><noscript><link rel="stylesheet" href="/css/style.css"></noscript><script id="loadcss"></script><script>window.MSInputMethodContext&&document.documentMode&&document.write('<style>html{overflow-x: hidden !important;overflow-y: hidden !important;}.kill-ie{text-align:center;height: 100%;margin-top: 15%;margin-bottom: 5500%;}</style><div class="kill-ie"><h1><b>抱歉，您的浏览器无法访问本站</b></h1><h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a></div>')</script><noscript><style>html{overflow-x:hidden!important;overflow-y:hidden!important}.kill-noscript{text-align:center;height:100%;margin-top:15%;margin-bottom:5500%}</style><div class="kill-noscript"><h1><b>抱歉，您的浏览器无法访问本站</b></h1><h3>本页面需要浏览器支持（启用）JavaScript</h3><br> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a></div></noscript><script>document.addEventListener("error",(function(t){const e=t.target,a=t.target.parentElement,s=a.classList.toString(),n=a.parentElement.classList.toString();"img"===e.tagName.toLowerCase()&&(e.classList.add("fix-cursor-default","error"),"fancybox"===s&&"fancybox"===n?(a.parentElement.classList.add("hideFancybox"),a.parentElement.classList.remove("fancybox"),a.classList.remove("fancybox")):"img-bg"===s&&"img-wrap"===n?a.parentElement.classList.add("hideFancybox"):-1!=s.indexOf("tk-avatar")&&a.parentElement.classList.add("fixImgError"))}),!0)</script></head><body><header id="l_header" class="l_header always shadow blur show"><div class="container"><div id="wrapper"><div class="nav-sub"><p class="title"></p><ul class="switcher nav-list-h m-phone" id="pjax-header-nav-list"><li><a id="s-comment" class="fad fa-comments fa-fw" target="_self" href="javascript:void(0)"></a></li><li><a id="s-toc" class="s-toc fad fa-list fa-fw" target="_self" href="javascript:void(0)"></a></li></ul></div><div class="nav-main"><a class="title flat-box" target="_self" href="/"><i class="fad fa-dragon"></i> GOOPHER's Blog</a><div class="menu navigation"><ul class="nav-list-h m-pc"><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-bars fa-fw"></i> 导航</a><ul class="list-v"><li><a class="menuitem flat-box faa-parent animated-hover" href="/archives/" id="archives"><i class="fad fa-archive fa-fw"></i> 归档</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/categories/" id="categories"><i class="fad fa-folder-open fa-fw"></i> 分类</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/tags/" id="tags"><i class="fad fa-tags fa-fw"></i> 标签</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/about/" id="about"><i class="fad fa-info-circle fa-fw"></i> 关于</a></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/friends/" id="friends"><i class="fad fa-link fa-fw"></i> 友链</a></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/comments/" id="comments"><i class="fad fa-comments fa-fw"></i> 留言</a></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/payme/" id="payme"><i class="fad fa-usd-circle fa-fw"></i> 打赏</a></li><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-cog fa-fw"></i> 设置</a><ul class="list-v"><li><a class="menuitem flat-box header toggle-mode-btn"><i class="fad fa-sunset fa-fw"></i> 黑白切换</a></li><li></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-ellipsis-v fa-fw"></i> 更多</a><ul class="list-v"><li><a class="menuitem flat-box faa-parent animated-hover" href="/photos/" id="photos"><i class="fad fa-images fa-fw"></i> 相册</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/talk/" id="talk"><i class="fad fa-comments-alt fa-fw"></i> 说说</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/bilibili/" id="bilibili"><i class="fad fa-alien-monster fa-fw"></i> 追番</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="https://music.goopher.tk/" id="https:musicgoophertk" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-music fa-fw"></i> 来点音乐</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="https://unlockmusic.goopher.tk/" id="https:unlockmusicgoophertk" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-unlock-alt fa-fw"></i> 音乐解锁</a></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover" href="https://travellings.now.sh/" id="https:travellingsnowsh" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-subway fa-fw"></i> 开往</a></li></ul></div><div class="m_search"><form name="searchform" class="form u-search-form"><i class="icon fad fa-search fa-fw"></i> <input type="text" class="input u-search-input" placeholder="查找你想看的文章..."></form></div><ul class="switcher nav-list-h m-phone"><li><a class="s-search fad fa-search fa-fw" target="_self" href="javascript:void(0)"></a></li><li><a class="s-menu fad fa-bars fa-fw" target="_self" href="javascript:void(0)"></a><ul class="menu-phone list-v navigation white-box"><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-bars fa-fw"></i> 导航</a><ul class="list-v"><li><a class="menuitem flat-box faa-parent animated-hover" href="/archives/" id="archives"><i class="fad fa-archive fa-fw"></i> 归档</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/categories/" id="categories"><i class="fad fa-folder-open fa-fw"></i> 分类</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/tags/" id="tags"><i class="fad fa-tags fa-fw"></i> 标签</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/about/" id="about"><i class="fad fa-info-circle fa-fw"></i> 关于</a></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/friends/" id="friends"><i class="fad fa-link fa-fw"></i> 友链</a></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/comments/" id="comments"><i class="fad fa-comments fa-fw"></i> 留言</a></li><li><a class="menuitem flat-box faa-parent animated-hover" href="/payme/" id="payme"><i class="fad fa-usd-circle fa-fw"></i> 打赏</a></li><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-cog fa-fw"></i> 设置</a><ul class="list-v"><li><a class="menuitem flat-box header toggle-mode-btn"><i class="fad fa-sunset fa-fw"></i> 黑白切换</a></li><li></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover"><i class="fad fa-ellipsis-v fa-fw"></i> 更多</a><ul class="list-v"><li><a class="menuitem flat-box faa-parent animated-hover" href="/photos/" id="photos"><i class="fad fa-images fa-fw"></i> 相册</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/talk/" id="talk"><i class="fad fa-comments-alt fa-fw"></i> 说说</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="/bilibili/" id="bilibili"><i class="fad fa-alien-monster fa-fw"></i> 追番</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="https://music.goopher.tk/" id="https:musicgoophertk" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-music fa-fw"></i> 来点音乐</a></li><hr><li><a class="menuitem flat-box faa-parent animated-hover" href="https://unlockmusic.goopher.tk/" id="https:unlockmusicgoophertk" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-unlock-alt fa-fw"></i> 音乐解锁</a></li></ul></li><li><a class="menuitem flat-box faa-parent animated-hover" href="https://travellings.now.sh/" id="https:travellingsnowsh" rel="external nofollow noopener noreferrer" target="_blank"><i class="fad fa-subway fa-fw"></i> 开往</a></li></ul></li></ul></div></div></div><script src="https://cdn.jsdelivr.net/gh/Goopher97/mycdn@1.6/hls.min.js"></script></header><div id="l_body"><div id="l_cover"><div id="full" class="cover-wrapper post blank" style="display:none"><div class="cover-bg lazyload placeholder" data-bg="https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture"></div><div id="scroll-down" style="display:none"><i class="fa fa-chevron-down scroll-down-effects"></i></div></div></div><div id="safearea"><div class="body-wrapper" id="pjax-container"><div class="l_main"><article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost"><div class="article-meta" id="top"><h1 class="title"> 使用Scriptable创建小组件</h1><div class="new-meta-box"><div class="new-meta-item author"> <a class="author" href="https://goopher.tk" rel="nofollow"><img no-lazy src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/favicon_16x16.ico"><p>GOOPHER</p></a></div><div class="new-meta-item category"><a class="notlink"><i class="fad fa-folder-open fa-fw" aria-hidden="true"></i> <a class="category-link" href="/categories/iOS%E5%B0%8F%E7%BB%84%E4%BB%B6/">iOS小组件</a></a></div><div class="new-meta-item date"><a class="notlink"><i class="fad fa-calendar-alt fa-fw" aria-hidden="true"></i><p>发布于：2021年2月25日</p></a></div><div class="new-meta-item browse leancloud"><a class="notlink"><div id="lc-pv" data-title="使用Scriptable创建小组件" data-path="/posts/29954.html"><i class="fad fa-eye fa-fw" aria-hidden="true"></i><span id="number"><i class="fad fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次浏览</div></a></div></div></div><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>打开app store搜索Scriptable下载安装即可，是免费的。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/CA68EF62-52DD-48E8-8749-D31EE2E57F45_L0_001_origin.IMG_0426.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/CA68EF62-52DD-48E8-8749-D31EE2E57F45_L0_001_origin.IMG_0426.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="安装"></p><h3 id="寻找需要的小组件代码"><a href="#寻找需要的小组件代码" class="headerlink" title="寻找需要的小组件代码"></a>寻找需要的小组件代码</h3><p>一般去github搜就有了，这里先以一个知乎热榜小组件为例。<br>我们先阅读说明。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/3FC302D3-E92F-4A6B-9FE8-85B09F58FFD9_L0_001_origin.IMG_0431.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/3FC302D3-E92F-4A6B-9FE8-85B09F58FFD9_L0_001_origin.IMG_0431.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="说明"><br>可以看到，需要先安装Env。点击他给的跳转。<br>然后全选复制代码。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/FFB7650D-0D11-45E1-91F5-7F2DB3CBB9F1_L0_001_origin.IMG_0432.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/FFB7650D-0D11-45E1-91F5-7F2DB3CBB9F1_L0_001_origin.IMG_0432.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="全选复制"><br>打开Scriptable软件，点击右上角的➕号，然后将代码粘贴进去。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/FE077715-13C8-470A-A19A-F7780B7C9109_L0_001_origin.IMG_0434.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/FE077715-13C8-470A-A19A-F7780B7C9109_L0_001_origin.IMG_0434.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="点击➕新建"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/53882DE5-767F-4392-8BB6-2E837CEA35C6_L0_001_origin.IMG_0435.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/53882DE5-767F-4392-8BB6-2E837CEA35C6_L0_001_origin.IMG_0435.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="粘贴代码"><br>粘贴后点击左下角的设置按钮，重命名为Env。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/B2108239-E7DF-40F1-8A3A-C2EDD691CDF0_L0_001_origin.IMG_0436.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/B2108239-E7DF-40F1-8A3A-C2EDD691CDF0_L0_001_origin.IMG_0436.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="重命名为Env"><br>之后依次点击左上角的close done保存退出。<br>再打开之前的说明，找到要安装的小组件”知乎热榜”。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/80382C34-4C5E-4928-B46D-2F4A6897B0A1_L0_001_origin.IMG_0437.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/80382C34-4C5E-4928-B46D-2F4A6897B0A1_L0_001_origin.IMG_0437.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="说明"><br>全选复制代码。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4A40536B-4776-4624-B69D-84C6E14DE218_L0_001_origin.IMG_0438.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4A40536B-4776-4624-B69D-84C6E14DE218_L0_001_origin.IMG_0438.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="复制"><br>之后再打开Scriptable，点击➕新建，将代码粘贴进去，再点击左下角设置，重命名为”知乎热榜”。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/043D404C-C921-40F6-AFCB-6A7AEDF6E14B_L0_001_origin.IMG_0440.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/043D404C-C921-40F6-AFCB-6A7AEDF6E14B_L0_001_origin.IMG_0440.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="粘贴代码新建知乎热搜"><br>完成后就可以点击右下角的运行按钮预览一下效果。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/09F00EF2-49DB-42B0-B7AB-9E3305FDF1F3_L0_001_origin.IMG_0441.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/09F00EF2-49DB-42B0-B7AB-9E3305FDF1F3_L0_001_origin.IMG_0441.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="预览效果"><br>新建小组件<br>在新建的时候选择Scriptable这个软件，然后选择合适的大小。<br>然后再点击一下反转，选择知乎热搜，然后就好了。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/EE4B1F97-485C-4436-8C96-065D75910E93_L0_001_origin.IMG_0443.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/EE4B1F97-485C-4436-8C96-065D75910E93_L0_001_origin.IMG_0443.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/BC18539B-A089-4D65-ADCF-D89F9848E4BD_L0_001_origin.IMG_0444.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/BC18539B-A089-4D65-ADCF-D89F9848E4BD_L0_001_origin.IMG_0444.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4A25C6CA-FC04-4252-9785-B657F6FCBCA7_L0_001_origin.IMG_0445.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4A25C6CA-FC04-4252-9785-B657F6FCBCA7_L0_001_origin.IMG_0445.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/95870162-DCBA-4397-916D-60941EE81868_L0_001_origin.IMG_0446.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/95870162-DCBA-4397-916D-60941EE81868_L0_001_origin.IMG_0446.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/934800A2-6213-4F35-991A-386D64DFE9F2_L0_001_origin.IMG_0447.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/934800A2-6213-4F35-991A-386D64DFE9F2_L0_001_origin.IMG_0447.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/1AEE7603-DB69-4DA7-B350-E076F3C19746_L0_001_origin.IMG_0448.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/1AEE7603-DB69-4DA7-B350-E076F3C19746_L0_001_origin.IMG_0448.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/0E4FDEF5-259F-48CC-A723-8DABF1A9D0F5_L0_001_origin.IMG_0449.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/0E4FDEF5-259F-48CC-A723-8DABF1A9D0F5_L0_001_origin.IMG_0449.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"></p><h2 id="电信小组件"><a href="#电信小组件" class="headerlink" title="电信小组件"></a>电信小组件</h2><p>同理，我们可以添加更实用的电信流量话费组件。</p><h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>复制以下代码去新建名为DmYY的依赖。</p><pre><code>/*
+ * Author: 2Ya
+ * Github: https://github.com/dompling
+ */
+
+class DmYY &#123;
+  constructor(arg) &#123;
+    this.arg = arg;
+    this._actions = &#123;&#125;;
+    this.init();
+    this.isNight = Device.isUsingDarkAppearance();
+  &#125;
+
+  BACKGROUND_NIGHT_KEY;
+  widgetColor;
+  backGroundColor;
+  useBoxJS = true;
+  isNight;
+
+  // 获取 Request 对象
+  getRequest = (url = &#39;&#39;) =&gt; &#123;
+    return new Request(url);
+  &#125;;
+
+  // 发起请求
+  http = async (options = &#123; headers: &#123;&#125;, url: &#39;&#39; &#125;, type = &#39;JSON&#39;) =&gt; &#123;
+    try &#123;
+      let request;
+      if (type !== &#39;IMG&#39;) &#123;
+        request = this.getRequest();
+        Object.keys(options).forEach((key) =&gt; &#123;
+          request[key] = options[key];
+        &#125;);
+        request.headers = &#123; ...this.defaultHeaders, ...options.headers &#125;;
+      &#125; else &#123;
+        request = this.getRequest(options.url);
+        return (await request.loadImage()) || SFSymbol.named(&#39;photo&#39;).image;
+      &#125;
+      if (type === &#39;JSON&#39;) &#123;
+        return await request.loadJSON();
+      &#125;
+      if (type === &#39;STRING&#39;) &#123;
+        return await request.loadString();
+      &#125;
+      return await request.loadJSON();
+    &#125; catch (e) &#123;
+      console.log(&#39;error:&#39; + e);
+      if (type === &#39;IMG&#39;) return SFSymbol.named(&#39;photo&#39;).image;
+    &#125;
+  &#125;;
+
+  //request 接口请求
+  $request = &#123;
+    get: async (url = &#39;&#39;, options = &#123;&#125;, type = &#39;JSON&#39;) =&gt; &#123;
+      let params = &#123; ...options, method: &#39;GET&#39; &#125;;
+      if (typeof url === &#39;object&#39;) &#123;
+        params = &#123; ...params, ...url &#125;;
+      &#125; else &#123;
+        params.url = url;
+      &#125;
+      let _type = type;
+      if (typeof options === &#39;string&#39;) _type = options;
+      return await this.http(params, _type);
+    &#125;,
+    post: async (url = &#39;&#39;, options = &#123;&#125;, type = &#39;JSON&#39;) =&gt; &#123;
+      let params = &#123; ...options, method: &#39;POST&#39; &#125;;
+      if (typeof url === &#39;object&#39;) &#123;
+        params = &#123; ...params, ...url &#125;;
+      &#125; else &#123;
+        params.url = url;
+      &#125;
+      let _type = type;
+      if (typeof options === &#39;string&#39;) _type = options;
+      return await this.http(params, _type);
+    &#125;,
+  &#125;;
+
+  // 获取 boxJS 缓存
+  getCache = async (key) =&gt; &#123;
+    try &#123;
+      const url = &#39;http://&#39; + this.prefix + &#39;/query/boxdata&#39;;
+      const boxdata = await this.$request.get(url);
+      console.log(boxdata.datas[key]);
+      if (key) return boxdata.datas[key];
+      return boxdata.datas;
+    &#125; catch (e) &#123;
+      console.log(e);
+      return false;
+    &#125;
+  &#125;;
+
+  transforJSON = (str) =&gt; &#123;
+    if (typeof str == &#39;string&#39;) &#123;
+      try &#123;
+        return JSON.parse(str);
+      &#125; catch (e) &#123;
+        console.log(e);
+        return str;
+      &#125;
+    &#125;
+    console.log(&#39;It is not a string!&#39;);
+  &#125;;
+
+  // 选择图片并缓存
+  chooseImg = async () =&gt; &#123;
+    return await Photos.fromLibrary();
+  &#125;;
+
+  // 设置 widget 背景图片
+  getWidgetBackgroundImage = async (widget) =&gt; &#123;
+    const backgroundImage = this.getBackgroundImage();
+    if (backgroundImage) &#123;
+      const opacity = Device.isUsingDarkAppearance()
+        ? Number(this.settings.darkOpacity)
+        : Number(this.settings.lightOpacity);
+      widget.backgroundImage = await this.shadowImage(
+        backgroundImage,
+        &#39;#000&#39;,
+        opacity,
+      );
+      return true;
+    &#125; else &#123;
+      if (this.backGroundColor.colors) &#123;
+        widget.backgroundGradient = this.backGroundColor;
+      &#125; else &#123;
+        widget.backgroundColor = this.backGroundColor;
+      &#125;
+      return false;
+    &#125;
+  &#125;;
+
+  /**
+   * 验证图片尺寸： 图片像素超过 1000 左右的时候会导致背景无法加载
+   * @param img Image
+   */
+  verifyImage = async (img) =&gt; &#123;
+    try &#123;
+      const &#123; width, height &#125; = img.size;
+      const direct = true;
+      if (width &gt; 1000) &#123;
+        const options = [&#39;取消&#39;, &#39;打开图像处理&#39;];
+        const message =
+          &#39;您的图片像素为&#39; +
+          width +
+          &#39; x &#39; +
+          height +
+          &#39;\n&#39; +
+          &#39;请将图片&#39; +
+          (direct ? &#39;宽度&#39; : &#39;高度&#39;) +
+          &#39;调整到 1000 以下\n&#39; +
+          (!direct ? &#39;宽度&#39; : &#39;高度&#39;) +
+          &#39;自动适应&#39;;
+        const index = await this.generateAlert(message, options);
+        if (index === 1)
+          Safari.openInApp(&#39;https://www.sojson.com/image/change.html&#39;, false);
+        return false;
+      &#125;
+      return true;
+    &#125; catch (e) &#123;
+      return false;
+    &#125;
+  &#125;;
+
+  /**
+   * 获取截图中的组件剪裁图
+   * 可用作透明背景
+   * 返回图片image对象
+   * 代码改自：https://gist.github.com/mzeryck/3a97ccd1e059b3afa3c6666d27a496c9
+   * @param &#123;string&#125; title 开始处理前提示用户截图的信息，可选（适合用在组件自定义透明背景时提示）
+   */
+  async getWidgetScreenShot(title = null) &#123;
+    // Crop an image into the specified rect.
+    function cropImage(img, rect) &#123;
+      let draw = new DrawContext();
+      draw.size = new Size(rect.width, rect.height);
+
+      draw.drawImageAtPoint(img, new Point(-rect.x, -rect.y));
+      return draw.getImage();
+    &#125;
+
+    // Pixel sizes and positions for widgets on all supported phones.
+    function phoneSizes() &#123;
+      return &#123;
+        // 12 and 12 Pro
+        2532: &#123;
+          small: 474,
+          medium: 1014,
+          large: 1062,
+          left: 78,
+          right: 618,
+          top: 231,
+          middle: 819,
+          bottom: 1407,
+        &#125;,
+
+        // 11 Pro Max, XS Max
+        2688: &#123;
+          small: 507,
+          medium: 1080,
+          large: 1137,
+          left: 81,
+          right: 654,
+          top: 228,
+          middle: 858,
+          bottom: 1488,
+        &#125;,
+
+        // 11, XR
+        1792: &#123;
+          small: 338,
+          medium: 720,
+          large: 758,
+          left: 54,
+          right: 436,
+          top: 160,
+          middle: 580,
+          bottom: 1000,
+        &#125;,
+
+        // 11 Pro, XS, X
+        2436: &#123;
+          small: 465,
+          medium: 987,
+          large: 1035,
+          left: 69,
+          right: 591,
+          top: 213,
+          middle: 783,
+          bottom: 1353,
+        &#125;,
+
+        // Plus phones
+        2208: &#123;
+          small: 471,
+          medium: 1044,
+          large: 1071,
+          left: 99,
+          right: 672,
+          top: 114,
+          middle: 696,
+          bottom: 1278,
+        &#125;,
+
+        // SE2 and 6/6S/7/8
+        1334: &#123;
+          small: 296,
+          medium: 642,
+          large: 648,
+          left: 54,
+          right: 400,
+          top: 60,
+          middle: 412,
+          bottom: 764,
+        &#125;,
+
+        // SE1
+        1136: &#123;
+          small: 282,
+          medium: 584,
+          large: 622,
+          left: 30,
+          right: 332,
+          top: 59,
+          middle: 399,
+          bottom: 399,
+        &#125;,
+
+        // 11 and XR in Display Zoom mode
+        1624: &#123;
+          small: 310,
+          medium: 658,
+          large: 690,
+          left: 46,
+          right: 394,
+          top: 142,
+          middle: 522,
+          bottom: 902,
+        &#125;,
+
+        // Plus in Display Zoom mode
+        2001: &#123;
+          small: 444,
+          medium: 963,
+          large: 972,
+          left: 81,
+          right: 600,
+          top: 90,
+          middle: 618,
+          bottom: 1146,
+        &#125;,
+      &#125;;
+    &#125;
+
+    let message =
+      title || &#39;开始之前，请先前往桌面，截取空白界面的截图。然后回来继续&#39;;
+    let exitOptions = [&#39;我已截图&#39;, &#39;前去截图 &gt;&#39;];
+    let shouldExit = await this.generateAlert(message, exitOptions);
+    if (shouldExit) return;
+
+    // Get screenshot and determine phone size.
+    let img = await Photos.fromLibrary();
+    let height = img.size.height;
+    let phone = phoneSizes()[height];
+    if (!phone) &#123;
+      message = &#39;好像您选择的照片不是正确的截图，请先前往桌面&#39;;
+      await this.generateAlert(message, [&#39;我已知晓&#39;]);
+      return;
+    &#125;
+
+    // Prompt for widget size and position.
+    message = &#39;截图中要设置透明背景组件的尺寸类型是？&#39;;
+    let sizes = [&#39;小尺寸&#39;, &#39;中尺寸&#39;, &#39;大尺寸&#39;];
+    let size = await this.generateAlert(message, sizes);
+    let widgetSize = sizes[size];
+
+    message = &#39;要设置透明背景的小组件在哪个位置？&#39;;
+    message +=
+      height === 1136
+        ? &#39; （备注：当前设备只支持两行小组件，所以下边选项中的「中间」和「底部」的选项是一致的）&#39;
+        : &#39;&#39;;
+
+    // Determine image crop based on phone size.
+    let crop = &#123; w: &#39;&#39;, h: &#39;&#39;, x: &#39;&#39;, y: &#39;&#39; &#125;;
+    if (widgetSize === &#39;小尺寸&#39;) &#123;
+      crop.w = phone.small;
+      crop.h = phone.small;
+      let positions = [
+        &#39;左上角&#39;,
+        &#39;右上角&#39;,
+        &#39;中间左&#39;,
+        &#39;中间右&#39;,
+        &#39;左下角&#39;,
+        &#39;右下角&#39;,
+      ];
+      let _posotions = [
+        &#39;Top left&#39;,
+        &#39;Top right&#39;,
+        &#39;Middle left&#39;,
+        &#39;Middle right&#39;,
+        &#39;Bottom left&#39;,
+        &#39;Bottom right&#39;,
+      ];
+      let position = await this.generateAlert(message, positions);
+
+      // Convert the two words into two keys for the phone size dictionary.
+      let keys = _posotions[position].toLowerCase().split(&#39; &#39;);
+      crop.y = phone[keys[0]];
+      crop.x = phone[keys[1]];
+    &#125; else if (widgetSize === &#39;中尺寸&#39;) &#123;
+      crop.w = phone.medium;
+      crop.h = phone.small;
+
+      // Medium and large widgets have a fixed x-value.
+      crop.x = phone.left;
+      let positions = [&#39;顶部&#39;, &#39;中间&#39;, &#39;底部&#39;];
+      let _positions = [&#39;Top&#39;, &#39;Middle&#39;, &#39;Bottom&#39;];
+      let position = await this.generateAlert(message, positions);
+      let key = _positions[position].toLowerCase();
+      crop.y = phone[key];
+    &#125; else if (widgetSize === &#39;大尺寸&#39;) &#123;
+      crop.w = phone.medium;
+      crop.h = phone.large;
+      crop.x = phone.left;
+      let positions = [&#39;顶部&#39;, &#39;底部&#39;];
+      let position = await this.generateAlert(message, positions);
+
+      // Large widgets at the bottom have the &quot;middle&quot; y-value.
+      crop.y = position ? phone.middle : phone.top;
+    &#125;
+
+    // Crop image and finalize the widget.
+    return cropImage(img, new Rect(crop.x, crop.y, crop.w, crop.h));
+  &#125;
+
+  setLightAndDark = async (title, desc, light, dark) =&gt; &#123;
+    try &#123;
+      const a = new Alert();
+      a.title = &#39;白天和夜间&#39; + title;
+      a.message = !desc ? &#39;请自行去网站上搜寻颜色（Hex 颜色）&#39; : desc;
+      a.addTextField(&#39;白天&#39;, (this.settings[light] || &#39;&#39;) + &#39;&#39;);
+      a.addTextField(&#39;夜间&#39;, (this.settings[dark] || &#39;&#39;) + &#39;&#39;);
+      a.addAction(&#39;确定&#39;);
+      a.addCancelAction(&#39;取消&#39;);
+      const id = await a.presentAlert();
+      if (id === -1) return;
+      this.settings[light] = a.textFieldValue(0);
+      this.settings[dark] = a.textFieldValue(1);
+      // 保存到本地
+      this.saveSettings();
+    &#125; catch (e) &#123;
+      console.log(e);
+    &#125;
+  &#125;;
+
+  /**
+   * 弹出输入框
+   * @param title 标题
+   * @param desc  描述
+   * @param opt   属性
+   * @returns &#123;Promise&lt;void&gt;&#125;
+   */
+  setAlertInput = async (title, desc, opt = &#123;&#125;, isSave = true) =&gt; &#123;
+    const a = new Alert();
+    a.title = title;
+    a.message = !desc ? &#39;&#39; : desc;
+    Object.keys(opt).forEach((key) =&gt; &#123;
+      a.addTextField(opt[key], this.settings[key]);
+    &#125;);
+    a.addAction(&#39;确定&#39;);
+    a.addCancelAction(&#39;取消&#39;);
+    const id = await a.presentAlert();
+    if (id === -1) return;
+    const data = &#123;&#125;;
+    Object.keys(opt).forEach((key, index) =&gt; &#123;
+      data[key] = a.textFieldValue(index);
+    &#125;);
+    // 保存到本地
+    if (isSave) &#123;
+      this.settings = &#123; ...this.settings, ...data &#125;;
+      return this.saveSettings();
+    &#125;
+    return data;
+  &#125;;
+
+  /**
+   * 设置当前项目的 boxJS 缓存
+   * @param opt key value
+   * @returns &#123;Promise&lt;void&gt;&#125;
+   */
+  setCacheBoxJSData = async (opt = &#123;&#125;) =&gt; &#123;
+    const options = [&#39;取消&#39;, &#39;确定&#39;];
+    const message = &#39;代理缓存仅支持 BoxJS 相关的代理！&#39;;
+    const index = await this.generateAlert(message, options);
+    if (index === 0) return;
+    try &#123;
+      const boxJSData = await this.getCache();
+      Object.keys(opt).forEach((key) =&gt; &#123;
+        this.settings[key] = boxJSData[opt[key]] || &#39;&#39;;
+      &#125;);
+      // 保存到本地
+      this.saveSettings();
+    &#125; catch (e) &#123;
+      console.log(e);
+      this.notify(
+        this.name,
+        &#39;BoxJS 缓存读取失败！点击查看相关教程&#39;,
+        &#39;https://chavyleung.gitbook.io/boxjs/awesome/videos&#39;,
+      );
+    &#125;
+  &#125;;
+
+  /**
+   * 设置组件内容
+   * @returns &#123;Promise&lt;void&gt;&#125;
+   */
+  setWidgetConfig = async () =&gt; &#123;
+    const alert = new Alert();
+    alert.title = &#39;内容配置&#39;;
+    alert.message = &#39;主题设置、刷新时间等&#39;;
+    alert.addAction(&#39;刷新时间&#39;);
+    alert.addAction(&#39;主题设置&#39;);
+    if (this.useBoxJS) alert.addAction(&#39;BoxJS域名&#39;);
+    alert.addAction(&#39;重置所有&#39;);
+    alert.addCancelAction(&#39;取消&#39;);
+    const actions = [
+      async () =&gt; &#123;
+        await this.setAlertInput(
+          &#39;刷新时间（分）&#39;,
+          &#39;默认刷新时间 30 分钟刷新一次，也可自行手动运行&#39;,
+          &#123; refreshAfterDate: &#39;分钟&#39; &#125;,
+        );
+      &#125;,
+      async () =&gt; &#123;
+        const a = new Alert();
+        a.title = &#39;主题设置&#39;;
+        a.addAction(&#39;背景设置&#39;);
+        a.addAction(&#39;背景颜色&#39;);
+        a.addAction(&#39;字体颜色&#39;);
+        a.addAction(&#39;透明背景&#39;);
+        a.addAction(&#39;蒙层透明&#39;);
+        a.addAction(&#39;清空背景&#39;);
+        a.addCancelAction(&#39;取消&#39;);
+        let i = await a.presentSheet();
+        if (i === -1) return;
+        const _action = [
+          async () =&gt; &#123;
+            const message = &#39;白天和夜间背景&#39;;
+            const options = [&#39;白天&#39;, &#39;夜间&#39;, &#39;取消&#39;];
+            const index = await this.generateAlert(message, options);
+            if (index === 2) return;
+            const backImage = await this.chooseImg();
+            if (!backImage || !(await this.verifyImage(backImage))) return;
+            if (index === 0) await this.setBackgroundImage(backImage, true);
+            if (index === 1)
+              await this.setBackgroundNightImage(backImage, true);
+          &#125;,
+          async () =&gt;
+            await this.setLightAndDark(
+              &#39;背景颜色&#39;,
+              false,
+              &#39;lightBgColor&#39;,
+              &#39;darkBgColor&#39;,
+            ),
+          async () =&gt;
+            await this.setLightAndDark(
+              &#39;字体颜色&#39;,
+              false,
+              &#39;lightColor&#39;,
+              &#39;darkColor&#39;,
+            ),
+          async () =&gt; &#123;
+            const message =
+              &#39;请自行搭配相应的字体颜色。\n&#39; +
+              &#39;白天蒙层透明设置为 0\n&#39; +
+              &#39;夜间请自行调整参考值 0.26\n&#39; +
+              &#39;夜间开启了（深色外观下调暗壁纸）参考值 0.35&#39;;
+            const options = [&#39;取消&#39;, &#39;确定&#39;];
+            const index = await this.generateAlert(message, options);
+            if (index === 0) return;
+            const backImage = await this.getWidgetScreenShot();
+            if (backImage) &#123;
+              await this.setBackgroundImage(backImage, true);
+              await this.setBackgroundNightImage(backImage, true);
+            &#125;
+          &#125;,
+          async () =&gt; &#123;
+            await this.setLightAndDark(
+              &#39;透明&#39;,
+              &#39;若是设置了透明背景，请自行调整&#39;,
+              &#39;lightOpacity&#39;,
+              &#39;darkOpacity&#39;,
+            );
+          &#125;,
+          async () =&gt; &#123;
+            await this.setBackgroundImage(false, false);
+            await this.setBackgroundNightImage(false, true);
+          &#125;,
+        ];
+        _action[i] &amp;&amp; _action[i].call(this);
+      &#125;,
+      ...(this.useBoxJS
+        ? [
+            async () =&gt; &#123;
+              const a = new Alert();
+              a.title = &#39;BoxJS 域名&#39;;
+              a.addTextField(&#39;域名&#39;, this.settings.boxjsDomain);
+              a.addAction(&#39;确定&#39;);
+              a.addCancelAction(&#39;取消&#39;);
+              const id = await a.presentAlert();
+              if (id === -1) return;
+              this.settings.boxjsDomain = a.textFieldValue(0);
+              // 保存到本地
+              this.saveSettings();
+            &#125;,
+          ]
+        : []),
+      async () =&gt; &#123;
+        const options = [&#39;取消&#39;, &#39;确定&#39;];
+        const message = &#39;该操作不可逆，会清空所有组件配置！&#39;;
+        const index = await this.generateAlert(message, options);
+        if (index === 0) return;
+        this.settings = &#123;&#125;;
+        // 保存到本地
+        await this.setBackgroundImage(false, false);
+        this.saveSettings();
+      &#125;,
+    ];
+    const id = await alert.presentAlert();
+    if (id === -1) return;
+    actions[id] &amp;&amp; actions[id].call(this);
+  &#125;;
+
+  init(widgetFamily = config.widgetFamily) &#123;
+    // 组件大小：small,medium,large
+    this.widgetFamily = widgetFamily;
+    this.SETTING_KEY = this.md5(Script.name());
+    //用于配置所有的组件相关设置
+
+    // 文件管理器
+    // 提示：缓存数据不要用这个操作，这个是操作源码目录的，缓存建议存放在local temp目录中
+    this.FILE_MGR = FileManager[
+      module.filename.includes(&#39;Documents/iCloud~&#39;) ? &#39;iCloud&#39; : &#39;local&#39;
+    ]();
+    // 本地，用于存储图片等
+    this.FILE_MGR_LOCAL = FileManager.local();
+    this.BACKGROUND_KEY = this.FILE_MGR_LOCAL.joinPath(
+      this.FILE_MGR_LOCAL.documentsDirectory(),
+      &#39;bg_&#39; + this.SETTING_KEY + &#39;.jpg&#39;,
+    );
+
+    this.BACKGROUND_NIGHT_KEY = this.FILE_MGR_LOCAL.joinPath(
+      this.FILE_MGR_LOCAL.documentsDirectory(),
+      &#39;bg_&#39; + this.SETTING_KEY + &#39;night.jpg&#39;,
+    );
+
+    this.settings = this.getSettings();
+    this.settings.lightColor = this.settings.lightColor || &#39;#000&#39;;
+    this.settings.darkColor = this.settings.darkColor || &#39;#fff&#39;;
+    this.settings.boxjsDomain = this.settings.boxjsDomain || &#39;boxjs.net&#39;;
+    this.settings.refreshAfterDate = this.settings.refreshAfterDate || &#39;30&#39;;
+    this.settings.lightOpacity = this.settings.lightOpacity || &#39;0.4&#39;;
+    this.settings.darkOpacity = this.settings.darkOpacity || &#39;0.7&#39;;
+    this.prefix = this.settings.boxjsDomain;
+
+    const lightBgColor = this.getColors(this.settings.lightBgColor);
+    const darkBgColor = this.getColors(this.settings.darkBgColor);
+    if (lightBgColor.length &gt; 1 || darkBgColor.length &gt; 1) &#123;
+      this.backGroundColor = !Device.isUsingDarkAppearance()
+        ? this.getBackgroundColor(lightBgColor || &#39;#fff&#39;)
+        : this.getBackgroundColor(darkBgColor || &#39;#000&#39;);
+    &#125; else &#123;
+      this.backGroundColor = Color.dynamic(
+        new Color(this.settings.lightBgColor || &#39;#fff&#39;),
+        new Color(this.settings.darkBgColor || &#39;#000&#39;),
+      );
+    &#125;
+    this.widgetColor = Color.dynamic(
+      new Color(this.settings.lightColor),
+      new Color(this.settings.darkColor),
+    );
+  &#125;
+
+  getColors = (color = &#39;&#39;) =&gt; &#123;
+    const colors = color.split(&#39;,&#39;);
+    return colors;
+  &#125;;
+
+  getBackgroundColor = (colors) =&gt; &#123;
+    const locations = [];
+    const linearColor = new LinearGradient();
+    const cLen = colors.length;
+    linearColor.colors = colors.map((item, index) =&gt; &#123;
+      locations.push(Math.floor(((index + 1) / cLen) * 100) / 100);
+      return new Color(item, 1);
+    &#125;);
+    linearColor.locations = locations;
+    return linearColor;
+  &#125;;
+
+  /**
+   * 注册点击操作菜单
+   * @param &#123;string&#125; name 操作函数名
+   * @param &#123;func&#125; func 点击后执行的函数
+   */
+  registerAction(name, func) &#123;
+    this._actions[name] = func.bind(this);
+  &#125;
+
+  /**
+   * base64 编码字符串
+   * @param &#123;string&#125; str 要编码的字符串
+   */
+  base64Encode(str) &#123;
+    const data = Data.fromString(str);
+    return data.toBase64String();
+  &#125;
+
+  /**
+   * base64解码数据 返回字符串
+   * @param &#123;string&#125; b64 base64编码的数据
+   */
+  base64Decode(b64) &#123;
+    const data = Data.fromBase64String(b64);
+    return data.toRawString();
+  &#125;
+
+  /**
+   * md5 加密字符串
+   * @param &#123;string&#125; str 要加密成md5的数据
+   */
+  md5(str) &#123;
+    function d(n, t) &#123;
+      var r = (65535 &amp; n) + (65535 &amp; t);
+      return (((n &gt;&gt; 16) + (t &gt;&gt; 16) + (r &gt;&gt; 16)) &lt;&lt; 16) | (65535 &amp; r);
+    &#125;
+
+    function f(n, t, r, e, o, u) &#123;
+      return d(((c = d(d(t, n), d(e, u))) &lt;&lt; (f = o)) | (c &gt;&gt;&gt; (32 - f)), r);
+      var c, f;
+    &#125;
+
+    function l(n, t, r, e, o, u, c) &#123;
+      return f((t &amp; r) | (~t &amp; e), n, t, o, u, c);
+    &#125;
+
+    function v(n, t, r, e, o, u, c) &#123;
+      return f((t &amp; e) | (r &amp; ~e), n, t, o, u, c);
+    &#125;
+
+    function g(n, t, r, e, o, u, c) &#123;
+      return f(t ^ r ^ e, n, t, o, u, c);
+    &#125;
+
+    function m(n, t, r, e, o, u, c) &#123;
+      return f(r ^ (t | ~e), n, t, o, u, c);
+    &#125;
+
+    function i(n, t) &#123;
+      var r, e, o, u;
+      (n[t &gt;&gt; 5] |= 128 &lt;&lt; t % 32), (n[14 + (((t + 64) &gt;&gt;&gt; 9) &lt;&lt; 4)] = t);
+      for (
+        var c = 1732584193,
+          f = -271733879,
+          i = -1732584194,
+          a = 271733878,
+          h = 0;
+        h &lt; n.length;
+        h += 16
+      )
+        (c = l((r = c), (e = f), (o = i), (u = a), n[h], 7, -680876936)),
+          (a = l(a, c, f, i, n[h + 1], 12, -389564586)),
+          (i = l(i, a, c, f, n[h + 2], 17, 606105819)),
+          (f = l(f, i, a, c, n[h + 3], 22, -1044525330)),
+          (c = l(c, f, i, a, n[h + 4], 7, -176418897)),
+          (a = l(a, c, f, i, n[h + 5], 12, 1200080426)),
+          (i = l(i, a, c, f, n[h + 6], 17, -1473231341)),
+          (f = l(f, i, a, c, n[h + 7], 22, -45705983)),
+          (c = l(c, f, i, a, n[h + 8], 7, 1770035416)),
+          (a = l(a, c, f, i, n[h + 9], 12, -1958414417)),
+          (i = l(i, a, c, f, n[h + 10], 17, -42063)),
+          (f = l(f, i, a, c, n[h + 11], 22, -1990404162)),
+          (c = l(c, f, i, a, n[h + 12], 7, 1804603682)),
+          (a = l(a, c, f, i, n[h + 13], 12, -40341101)),
+          (i = l(i, a, c, f, n[h + 14], 17, -1502002290)),
+          (c = v(
+            c,
+            (f = l(f, i, a, c, n[h + 15], 22, 1236535329)),
+            i,
+            a,
+            n[h + 1],
+            5,
+            -165796510,
+          )),
+          (a = v(a, c, f, i, n[h + 6], 9, -1069501632)),
+          (i = v(i, a, c, f, n[h + 11], 14, 643717713)),
+          (f = v(f, i, a, c, n[h], 20, -373897302)),
+          (c = v(c, f, i, a, n[h + 5], 5, -701558691)),
+          (a = v(a, c, f, i, n[h + 10], 9, 38016083)),
+          (i = v(i, a, c, f, n[h + 15], 14, -660478335)),
+          (f = v(f, i, a, c, n[h + 4], 20, -405537848)),
+          (c = v(c, f, i, a, n[h + 9], 5, 568446438)),
+          (a = v(a, c, f, i, n[h + 14], 9, -1019803690)),
+          (i = v(i, a, c, f, n[h + 3], 14, -187363961)),
+          (f = v(f, i, a, c, n[h + 8], 20, 1163531501)),
+          (c = v(c, f, i, a, n[h + 13], 5, -1444681467)),
+          (a = v(a, c, f, i, n[h + 2], 9, -51403784)),
+          (i = v(i, a, c, f, n[h + 7], 14, 1735328473)),
+          (c = g(
+            c,
+            (f = v(f, i, a, c, n[h + 12], 20, -1926607734)),
+            i,
+            a,
+            n[h + 5],
+            4,
+            -378558,
+          )),
+          (a = g(a, c, f, i, n[h + 8], 11, -2022574463)),
+          (i = g(i, a, c, f, n[h + 11], 16, 1839030562)),
+          (f = g(f, i, a, c, n[h + 14], 23, -35309556)),
+          (c = g(c, f, i, a, n[h + 1], 4, -1530992060)),
+          (a = g(a, c, f, i, n[h + 4], 11, 1272893353)),
+          (i = g(i, a, c, f, n[h + 7], 16, -155497632)),
+          (f = g(f, i, a, c, n[h + 10], 23, -1094730640)),
+          (c = g(c, f, i, a, n[h + 13], 4, 681279174)),
+          (a = g(a, c, f, i, n[h], 11, -358537222)),
+          (i = g(i, a, c, f, n[h + 3], 16, -722521979)),
+          (f = g(f, i, a, c, n[h + 6], 23, 76029189)),
+          (c = g(c, f, i, a, n[h + 9], 4, -640364487)),
+          (a = g(a, c, f, i, n[h + 12], 11, -421815835)),
+          (i = g(i, a, c, f, n[h + 15], 16, 530742520)),
+          (c = m(
+            c,
+            (f = g(f, i, a, c, n[h + 2], 23, -995338651)),
+            i,
+            a,
+            n[h],
+            6,
+            -198630844,
+          )),
+          (a = m(a, c, f, i, n[h + 7], 10, 1126891415)),
+          (i = m(i, a, c, f, n[h + 14], 15, -1416354905)),
+          (f = m(f, i, a, c, n[h + 5], 21, -57434055)),
+          (c = m(c, f, i, a, n[h + 12], 6, 1700485571)),
+          (a = m(a, c, f, i, n[h + 3], 10, -1894986606)),
+          (i = m(i, a, c, f, n[h + 10], 15, -1051523)),
+          (f = m(f, i, a, c, n[h + 1], 21, -2054922799)),
+          (c = m(c, f, i, a, n[h + 8], 6, 1873313359)),
+          (a = m(a, c, f, i, n[h + 15], 10, -30611744)),
+          (i = m(i, a, c, f, n[h + 6], 15, -1560198380)),
+          (f = m(f, i, a, c, n[h + 13], 21, 1309151649)),
+          (c = m(c, f, i, a, n[h + 4], 6, -145523070)),
+          (a = m(a, c, f, i, n[h + 11], 10, -1120210379)),
+          (i = m(i, a, c, f, n[h + 2], 15, 718787259)),
+          (f = m(f, i, a, c, n[h + 9], 21, -343485551)),
+          (c = d(c, r)),
+          (f = d(f, e)),
+          (i = d(i, o)),
+          (a = d(a, u));
+      return [c, f, i, a];
+    &#125;
+
+    function a(n) &#123;
+      for (var t = &#39;&#39;, r = 32 * n.length, e = 0; e &lt; r; e += 8)
+        t += String.fromCharCode((n[e &gt;&gt; 5] &gt;&gt;&gt; e % 32) &amp; 255);
+      return t;
+    &#125;
+
+    function h(n) &#123;
+      var t = [];
+      for (t[(n.length &gt;&gt; 2) - 1] = void 0, e = 0; e &lt; t.length; e += 1)
+        t[e] = 0;
+      for (var r = 8 * n.length, e = 0; e &lt; r; e += 8)
+        t[e &gt;&gt; 5] |= (255 &amp; n.charCodeAt(e / 8)) &lt;&lt; e % 32;
+      return t;
+    &#125;
+
+    function e(n) &#123;
+      for (var t, r = &#39;0123456789abcdef&#39;, e = &#39;&#39;, o = 0; o &lt; n.length; o += 1)
+        (t = n.charCodeAt(o)),
+          (e += r.charAt((t &gt;&gt;&gt; 4) &amp; 15) + r.charAt(15 &amp; t));
+      return e;
+    &#125;
+
+    function r(n) &#123;
+      return unescape(encodeURIComponent(n));
+    &#125;
+
+    function o(n) &#123;
+      return a(i(h((t = r(n))), 8 * t.length));
+      var t;
+    &#125;
+
+    function u(n, t) &#123;
+      return (function (n, t) &#123;
+        var r,
+          e,
+          o = h(n),
+          u = [],
+          c = [];
+        for (
+          u[15] = c[15] = void 0,
+            16 &lt; o.length &amp;&amp; (o = i(o, 8 * n.length)),
+            r = 0;
+          r &lt; 16;
+          r += 1
+        )
+          (u[r] = 909522486 ^ o[r]), (c[r] = 1549556828 ^ o[r]);
+        return (
+          (e = i(u.concat(h(t)), 512 + 8 * t.length)), a(i(c.concat(e), 640))
+        );
+      &#125;)(r(n), r(t));
+    &#125;
+
+    function t(n, t, r) &#123;
+      return t ? (r ? u(t, n) : e(u(t, n))) : r ? o(n) : e(o(n));
+    &#125;
+
+    return t(str);
+  &#125;
+
+  /**
+   * 渲染标题内容
+   * @param &#123;object&#125; widget 组件对象
+   * @param &#123;string&#125; icon 图标地址
+   * @param &#123;string&#125; title 标题内容
+   * @param &#123;bool|color&#125; color 字体的颜色（自定义背景时使用，默认系统）
+   */
+  async renderHeader(widget, icon, title, color = false) &#123;
+    let header = widget.addStack();
+    header.centerAlignContent();
+    try &#123;
+      const image = await this.$request.get(icon, &#39;IMG&#39;);
+      let _icon = header.addImage(image);
+      _icon.imageSize = new Size(14, 14);
+      _icon.cornerRadius = 4;
+    &#125; catch (e) &#123;
+      console.log(e);
+    &#125;
+    header.addSpacer(10);
+    let _title = header.addText(title);
+    if (color) _title.textColor = color;
+    _title.textOpacity = 0.7;
+    _title.font = Font.boldSystemFont(12);
+    _title.lineLimit = 1;
+    widget.addSpacer(15);
+    return widget;
+  &#125;
+
+  /**
+   * @param message 描述内容
+   * @param options 按钮
+   * @returns &#123;Promise&lt;number&gt;&#125;
+   */
+
+  async generateAlert(message, options) &#123;
+    let alert = new Alert();
+    alert.message = message;
+
+    for (const option of options) &#123;
+      alert.addAction(option);
+    &#125;
+    return await alert.presentAlert();
+  &#125;
+
+  /**
+   * 弹出一个通知
+   * @param &#123;string&#125; title 通知标题
+   * @param &#123;string&#125; body 通知内容
+   * @param &#123;string&#125; url 点击后打开的URL
+   */
+  async notify(title, body, url, opts = &#123;&#125;) &#123;
+    let n = new Notification();
+    n = Object.assign(n, opts);
+    n.title = title;
+    n.body = body;
+    if (url) n.openURL = url;
+    return await n.schedule();
+  &#125;
+
+  /**
+   * 给图片加一层半透明遮罩
+   * @param &#123;Image&#125; img 要处理的图片
+   * @param &#123;string&#125; color 遮罩背景颜色
+   * @param &#123;float&#125; opacity 透明度
+   */
+  async shadowImage(img, color = &#39;#000000&#39;, opacity = 0.7) &#123;
+    if (!img) return;
+    if (opacity === 0) return img;
+    let ctx = new DrawContext();
+    // 获取图片的尺寸
+    ctx.size = img.size;
+
+    ctx.drawImageInRect(
+      img,
+      new Rect(0, 0, img.size[&#39;width&#39;], img.size[&#39;height&#39;]),
+    );
+    ctx.setFillColor(new Color(color, opacity));
+    ctx.fillRect(new Rect(0, 0, img.size[&#39;width&#39;], img.size[&#39;height&#39;]));
+    return await ctx.getImage();
+  &#125;
+
+  /**
+   * 获取当前插件的设置
+   * @param &#123;boolean&#125; json 是否为json格式
+   */
+  getSettings(json = true) &#123;
+    let res = json ? &#123;&#125; : &#39;&#39;;
+    let cache = &#39;&#39;;
+    if (Keychain.contains(this.SETTING_KEY)) &#123;
+      cache = Keychain.get(this.SETTING_KEY);
+    &#125;
+    if (json) &#123;
+      try &#123;
+        res = JSON.parse(cache);
+      &#125; catch (e) &#123;&#125;
+    &#125; else &#123;
+      res = cache;
+    &#125;
+
+    return res;
+  &#125;
+
+  /**
+   * 存储当前设置
+   * @param &#123;bool&#125; notify 是否通知提示
+   */
+  saveSettings(notify = true) &#123;
+    let res =
+      typeof this.settings === &#39;object&#39;
+        ? JSON.stringify(this.settings)
+        : String(this.settings);
+    Keychain.set(this.SETTING_KEY, res);
+    if (notify) this.notify(&#39;设置成功&#39;, &#39;桌面组件稍后将自动刷新&#39;);
+  &#125;
+
+  /**
+   * 获取当前插件是否有自定义背景图片
+   * @reutrn img | false
+   */
+  getBackgroundImage() &#123;
+    let result = null;
+    if (this.FILE_MGR_LOCAL.fileExists(this.BACKGROUND_KEY)) &#123;
+      result = Image.fromFile(this.BACKGROUND_KEY);
+    &#125;
+    if (
+      Device.isUsingDarkAppearance() &amp;&amp;
+      this.FILE_MGR_LOCAL.fileExists(this.BACKGROUND_NIGHT_KEY)
+    ) &#123;
+      result = Image.fromFile(this.BACKGROUND_NIGHT_KEY);
+    &#125;
+    return result;
+  &#125;
+
+  /**
+   * 设置当前组件的背景图片
+   * @param &#123;Image&#125; img
+   */
+  setBackgroundImage(img, notify = true) &#123;
+    if (!img) &#123;
+      // 移除背景
+      if (this.FILE_MGR_LOCAL.fileExists(this.BACKGROUND_KEY)) &#123;
+        this.FILE_MGR_LOCAL.remove(this.BACKGROUND_KEY);
+      &#125;
+      if (notify)
+        this.notify(&#39;移除成功&#39;, &#39;小组件白天背景图片已移除，稍后刷新生效&#39;);
+    &#125; else &#123;
+      // 设置背景
+      // 全部设置一遍，
+      this.FILE_MGR_LOCAL.writeImage(this.BACKGROUND_KEY, img);
+      if (notify)
+        this.notify(&#39;设置成功&#39;, &#39;小组件白天背景图片已设置！稍后刷新生效&#39;);
+    &#125;
+  &#125;
+
+  setBackgroundNightImage(img, notify = true) &#123;
+    if (!img) &#123;
+      // 移除背景
+      if (this.FILE_MGR_LOCAL.fileExists(this.BACKGROUND_NIGHT_KEY)) &#123;
+        this.FILE_MGR_LOCAL.remove(this.BACKGROUND_NIGHT_KEY);
+      &#125;
+      if (notify)
+        this.notify(&#39;移除成功&#39;, &#39;小组件夜间背景图片已移除，稍后刷新生效&#39;);
+    &#125; else &#123;
+      // 设置背景
+      // 全部设置一遍，
+      this.FILE_MGR_LOCAL.writeImage(this.BACKGROUND_NIGHT_KEY, img);
+      if (notify)
+        this.notify(&#39;设置成功&#39;, &#39;小组件夜间背景图片已设置！稍后刷新生效&#39;);
+    &#125;
+  &#125;
+
+  getRandomArrayElements(arr, count) &#123;
+    let shuffled = arr.slice(0),
+      i = arr.length,
+      min = i - count,
+      temp,
+      index;
+    min = min &gt; 0 ? min : 0;
+    while (i-- &gt; min) &#123;
+      index = Math.floor((i + 1) * Math.random());
+      temp = shuffled[index];
+      shuffled[index] = shuffled[i];
+      shuffled[i] = temp;
+    &#125;
+    return shuffled.slice(min);
+  &#125;
+
+  textFormat = &#123;
+    defaultText: &#123; size: 14, font: &#39;regular&#39;, color: this.widgetColor &#125;,
+    battery: &#123; size: 10, font: &#39;bold&#39;, color: this.widgetColor &#125;,
+    title: &#123; size: 16, font: &#39;semibold&#39;, color: this.widgetColor &#125;,
+    SFMono: &#123; size: 12, font: &#39;SF Mono&#39;, color: this.widgetColor &#125;,
+  &#125;;
+
+  provideFont = (fontName, fontSize) =&gt; &#123;
+    const fontGenerator = &#123;
+      ultralight: function () &#123;
+        return Font.ultraLightSystemFont(fontSize);
+      &#125;,
+      light: function () &#123;
+        return Font.lightSystemFont(fontSize);
+      &#125;,
+      regular: function () &#123;
+        return Font.regularSystemFont(fontSize);
+      &#125;,
+      medium: function () &#123;
+        return Font.mediumSystemFont(fontSize);
+      &#125;,
+      semibold: function () &#123;
+        return Font.semiboldSystemFont(fontSize);
+      &#125;,
+      bold: function () &#123;
+        return Font.boldSystemFont(fontSize);
+      &#125;,
+      heavy: function () &#123;
+        return Font.heavySystemFont(fontSize);
+      &#125;,
+      black: function () &#123;
+        return Font.blackSystemFont(fontSize);
+      &#125;,
+      italic: function () &#123;
+        return Font.italicSystemFont(fontSize);
+      &#125;,
+    &#125;;
+
+    const systemFont = fontGenerator[fontName];
+    if (systemFont) &#123;
+      return systemFont();
+    &#125;
+    return new Font(fontName, fontSize);
+  &#125;;
+
+  provideText = (string, container, format) =&gt; &#123;
+    const textItem = container.addText(string);
+    const textFont = format.font;
+    const textSize = format.size;
+    const textColor = format.color;
+
+    textItem.font = this.provideFont(textFont, textSize);
+    textItem.textColor = textColor;
+    return textItem;
+  &#125;;
+&#125;
+
+// @base.end
+const Runing = async (Widget, default_args = &#39;&#39;, isDebug = true, extra) =&gt; &#123;
+  let M = null;
+  // 判断hash是否和当前设备匹配
+  if (config.runsInWidget) &#123;
+    M = new Widget(args.widgetParameter || &#39;&#39;);
+
+    if (extra) &#123;
+      Object.keys(extra).forEach((key) =&gt; &#123;
+        M[key] = extra[key];
+      &#125;);
+    &#125;
+    const W = await M.render();
+    try &#123;
+      if (M.settings.refreshAfterDate) &#123;
+        W.refreshAfterDate = new Date(
+          new Date() + 1000 * 60 * parseInt(M.settings.refreshAfterDate),
+        );
+      &#125;
+    &#125; catch (e) &#123;
+      console.log(e);
+    &#125;
+    if (W) &#123;
+      Script.setWidget(W);
+      Script.complete();
+    &#125;
+  &#125; else &#123;
+    let &#123; act, data, __arg, __size &#125; = args.queryParameters;
+    M = new Widget(__arg || default_args || &#39;&#39;);
+    if (extra) &#123;
+      Object.keys(extra).forEach((key) =&gt; &#123;
+        M[key] = extra[key];
+      &#125;);
+    &#125;
+    if (__size) M.init(__size);
+    if (!act || !M[&#39;_actions&#39;]) &#123;
+      // 弹出选择菜单
+      const actions = M[&#39;_actions&#39;];
+      const _actions = [
+        // 预览组件
+        async (debug = false) =&gt; &#123;
+          let a = new Alert();
+          a.title = &#39;预览组件&#39;;
+          a.message = &#39;测试桌面组件在各种尺寸下的显示效果&#39;;
+          a.addAction(&#39;小尺寸 Small&#39;);
+          a.addAction(&#39;中尺寸 Medium&#39;);
+          a.addAction(&#39;大尺寸 Large&#39;);
+          a.addAction(&#39;全部 All&#39;);
+          a.addCancelAction(&#39;取消操作&#39;);
+          const funcs = [];
+          if (debug) &#123;
+            for (let _ in actions) &#123;
+              a.addAction(_);
+              funcs.push(actions[_].bind(M));
+            &#125;
+            a.addDestructiveAction(&#39;停止调试&#39;);
+          &#125;
+          let i = await a.presentSheet();
+          if (i === -1) return;
+          let w;
+          switch (i) &#123;
+            case 0:
+              M.widgetFamily = &#39;small&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentSmall());
+              break;
+            case 1:
+              M.widgetFamily = &#39;medium&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentMedium());
+              break;
+            case 2:
+              M.widgetFamily = &#39;large&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentLarge());
+              break;
+            case 3:
+              M.widgetFamily = &#39;small&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentSmall());
+              M.widgetFamily = &#39;medium&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentMedium());
+              M.widgetFamily = &#39;large&#39;;
+              w = await M.render();
+              w &amp;&amp; (await w.presentLarge());
+              break;
+            default:
+              const func = funcs[i - 4];
+              if (func) await func();
+              break;
+          &#125;
+
+          return i;
+        &#125;,
+      ];
+      const alert = new Alert();
+      alert.title = M.name;
+      alert.message = M.desc;
+      alert.addAction(&#39;预览组件&#39;);
+      for (let _ in actions) &#123;
+        alert.addAction(_);
+        _actions.push(actions[_]);
+      &#125;
+      alert.addCancelAction(&#39;取消操作&#39;);
+      const idx = await alert.presentSheet();
+      if (_actions[idx]) &#123;
+        const func = _actions[idx];
+        await func();
+      &#125;
+      return;
+    &#125;
+    let _tmp = act
+      .split(&#39;-&#39;)
+      .map((_) =&gt; _[0].toUpperCase() + _.substr(1))
+      .join(&#39;&#39;);
+    let _act = &#39;action&#39; + _tmp;
+    if (M[_act] &amp;&amp; typeof M[_act] === &#39;function&#39;) &#123;
+      const func = M[_act].bind(M);
+      await func(data);
+    &#125;
+  &#125;
+&#125;;
+
+module.exports = &#123; DmYY, Runing &#125;;
+</code></pre><p>如图所示。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/E610F3A6-F706-4C52-ADED-47D674BA380B_L0_001_origin.IMG_0451.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/E610F3A6-F706-4C52-ADED-47D674BA380B_L0_001_origin.IMG_0451.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="DmYY"></p><h3 id="新建电信小组件"><a href="#新建电信小组件" class="headerlink" title="新建电信小组件"></a>新建电信小组件</h3><p>之后复制下面的代码去新建电信流量话费信息小组件。</p><pre><code>// 添加require，是为了vscode中可以正确引入包，以获得自动补全等功能
+if (typeof require === &#39;undefined&#39;) require = importModule;
+const &#123;DmYY, Runing&#125; = require(&#39;./DmYY&#39;);
+
+// @组件代码开始
+class Widget extends DmYY &#123;
+  constructor(arg) &#123;
+    super(arg);
+    this.name = &#39;中国电信&#39;;
+    this.en = &#39;ChinaTelecom&#39;;
+    this.Run();
+  &#125;
+
+  cookie = &#39;&#39;;
+  authToken = &#39;&#39;;
+  fgCircleColor = Color.dynamic(new Color(&#39;#dddef3&#39;), new Color(&#39;#fff&#39;));
+  percentColor = this.widgetColor;
+  textColor1 = Color.dynamic(new Color(&#39;#333&#39;), new Color(&#39;#fff&#39;));
+  textColor2 = this.widgetColor;
+
+  circleColor1 = new Color(&#39;#ffbb73&#39;);
+  circleColor2 = new Color(&#39;#ff0029&#39;);
+  circleColor3 = new Color(&#39;#00b800&#39;);
+  circleColor4 = new Color(&#39;#8376f9&#39;);
+  iconColor = new Color(&#39;#827af1&#39;);
+
+  format = (str) =&gt; &#123;
+    return parseInt(str) &gt;= 10 ? str : `0$&#123;str&#125;`;
+  &#125;;
+
+  date = new Date();
+  arrUpdateTime = [
+    this.format(this.date.getMonth() + 1),
+    this.format(this.date.getDate()),
+    this.format(this.date.getHours()),
+    this.format(this.date.getMinutes()),
+  ];
+
+  // percent 的计算方式，剩余/总量 * 100 = 百分比| 百分比 * 3.6 ，为显示进度。
+  phoneBill = &#123;
+    percent: 0,
+    label: &#39;话费剩余&#39;,
+    count: 0,
+    unit: &#39;元&#39;,
+    icon: &#39;yensign.circle&#39;,
+    circleColor: this.circleColor1,
+  &#125;;
+
+  flow = &#123;
+    percent: 0,
+    label: &#39;流量剩余&#39;,
+    count: 0,
+    unit: &#39;M&#39;,
+    icon: &#39;waveform.path.badge.minus&#39;,
+    circleColor: this.circleColor2,
+  &#125;;
+
+  voice = &#123;
+    percent: 0,
+    label: &#39;语音剩余&#39;,
+    count: 0,
+    unit: &#39;分钟&#39;,
+    icon: &#39;mic&#39;,
+    circleColor: this.circleColor3,
+  &#125;;
+
+  updateTime = &#123;
+    percent: 0,
+    label: &#39;更新时间&#39;,
+    count: `$&#123;this.arrUpdateTime[2]&#125;:$&#123;this.arrUpdateTime[3]&#125;`,
+    unit: &#39;&#39;,
+    urlIcon: &#39;https://raw.githubusercontent.com/Orz-3/mini/master/10000.png&#39;,
+    circleColor: this.circleColor4,
+  &#125;;
+
+  canvSize = 100;
+  canvWidth = 4; // circle thickness
+  canvRadius = 100; // circle radius
+  dayRadiusOffset = 63;
+  canvTextSize = 38;
+
+  options = &#123;
+    headers: &#123;
+      // type: &quot;alipayMiniApp&quot;,
+      // &quot;User-Agent&quot;: &quot;TYUserCenter/2.8 (iPhone; iOS 14.0; Scale/3.00)&quot;,
+    &#125;,
+    // body: &quot;t=tysuit&quot;,
+    method: &#39;POST&#39;,
+  &#125;;
+
+  fetchUri = &#123;
+    detail: &#39;https://e.189.cn/store/user/package_detail.do&#39;,
+    balance: &#39;https://e.189.cn/store/user/balance_new.do&#39;,
+  &#125;;
+
+  init = async () =&gt; &#123;
+    try &#123;
+      const nowHours = this.date.getHours();
+      const updateHours = nowHours &gt; 12 ? 24 : 12;
+      this.updateTime.percent = Math.floor((nowHours / updateHours) * 100);
+      await this.getData();
+    &#125; catch (e) &#123;
+      console.log(e);
+    &#125;
+  &#125;;
+
+  // MB 和 GB 自动转换
+  formatFlow(number) &#123;
+    const n = number / 1024;
+    if (n &lt; 1024) &#123;
+      return &#123;count: n.toFixed(2), unit: &#39;M&#39;&#125;;
+    &#125;
+    return &#123;count: (n / 1024).toFixed(2), unit: &#39;G&#39;&#125;;
+  &#125;
+
+  getData = async () =&gt; &#123;
+    const detail = await this.http(&#123;
+      url: this.fetchUri.detail,
+      ...this.options,
+    &#125;);
+    console.log(detail);
+    const balance = await this.http(&#123;
+      url: this.fetchUri.balance,
+      ...this.options,
+    &#125;);
+
+    if (detail.result === 0) &#123;
+      // 套餐分钟数
+      this.voice.percent = Math.floor(
+          (parseInt(detail.voiceBalance) / parseInt(detail.voiceAmount)) * 100,
+      );
+      this.voice.count = detail.voiceBalance;
+      console.log(detail.items);
+      if (!detail.count &amp;&amp; !detail.total) &#123;
+        detail.items.forEach((data) =&gt; &#123;
+          if (data.offerType !== 19) &#123;
+            data.items.forEach((item) =&gt; &#123;
+              if (item.unitTypeId === &#39;3&#39;) &#123;
+                if (item.usageAmount !== &#39;0&#39; &amp;&amp; item.balanceAmount !== &#39;0&#39;) &#123;
+                  this.flow.percent = Math.floor(
+                      (item.balanceAmount / (item.ratableAmount || 1)) * 100,
+                  );
+                  const flow = this.formatFlow(item.balanceAmount);
+                  this.flow.count = flow.count;
+                  this.flow.unit = flow.unit;
+                  this.flow.max = item.ratableAmount;
+                &#125;
+              &#125;
+            &#125;);
+          &#125;
+        &#125;);
+      &#125; else &#123;
+        this.flow.percent = Math.floor(
+            (detail.balance / (detail.total || 1)) * 100,
+        );
+        const flow = this.formatFlow(detail.balance);
+        this.flow.count = flow.count;
+        this.flow.unit = flow.unit;
+        this.flow.max = detail.total;
+      &#125;
+
+    &#125;
+    if (balance.result === 0) &#123;
+      // 余额
+      this.phoneBill.count = parseFloat(
+          parseInt(balance.totalBalanceAvailable) / 100).toFixed(2)
+    &#125;
+    this.phoneBill.percent = Math.floor((this.phoneBill.count / 100) * 100);
+  &#125;;
+
+  makeCanvas() &#123;
+    const canvas = new DrawContext();
+    canvas.opaque = false;
+    canvas.respectScreenScale = true;
+    canvas.size = new Size(this.canvSize, this.canvSize);
+    return canvas;
+  &#125;
+
+  makeCircle(canvas, radiusOffset, degree, color) &#123;
+    let ctr = new Point(this.canvSize / 2, this.canvSize / 2);
+    // Outer circle
+    const bgx = ctr.x - (this.canvRadius - radiusOffset);
+    const bgy = ctr.y - (this.canvRadius - radiusOffset);
+    const bgd = 2 * (this.canvRadius - radiusOffset);
+    const bgr = new Rect(bgx, bgy, bgd, bgd);
+    canvas.setStrokeColor(this.fgCircleColor);
+    canvas.setLineWidth(3);
+    canvas.strokeEllipse(bgr);
+    // Inner circle
+    canvas.setFillColor(color);
+    for (let t = 0; t &lt; degree; t++) &#123;
+      const rect_x =
+          ctr.x +
+          (this.canvRadius - radiusOffset) * this.sinDeg(t) -
+          this.canvWidth / 2;
+      const rect_y =
+          ctr.y -
+          (this.canvRadius - radiusOffset) * this.cosDeg(t) -
+          this.canvWidth / 2;
+      const rect_r = new Rect(rect_x, rect_y, this.canvWidth, this.canvWidth);
+      canvas.fillEllipse(rect_r);
+    &#125;
+  &#125;
+
+  drawText(txt, canvas, txtOffset, fontSize) &#123;
+    const txtRect = new Rect(
+        this.canvTextSize / 2.6 - 20,
+        txtOffset - this.canvTextSize / 1.4,
+        this.canvSize,
+        this.canvTextSize,
+    );
+    canvas.setTextColor(this.percentColor);
+    canvas.setFont(Font.boldSystemFont(fontSize));
+    canvas.setTextAlignedCenter();
+    canvas.drawTextInRect(`$&#123;txt&#125;`, txtRect);
+  &#125;
+
+  drawPointText(txt, canvas, txtPoint, fontSize) &#123;
+    canvas.setTextColor(this.percentColor);
+    canvas.setFont(Font.boldSystemFont(fontSize));
+    canvas.drawText(txt, txtPoint);
+  &#125;
+
+  sinDeg(deg) &#123;
+    return Math.sin((deg * Math.PI) / 180);
+  &#125;
+
+  cosDeg(deg) &#123;
+    return Math.cos((deg * Math.PI) / 180);
+  &#125;
+
+  setCircleText = (stack, data) =&gt; &#123;
+    const stackCircle = stack.addStack();
+    const canvas = this.makeCanvas();
+    stackCircle.size = new Size(73, 73);//上下两组数据间隔
+    this.makeCircle(
+        canvas,
+        this.dayRadiusOffset,
+        data.percent * 3.6,
+        data.circleColor,
+    );
+
+    this.drawText(data.percent, canvas, 75, 17);
+    this.drawPointText(`%`, canvas, new Point(60, 50), 14);//百分号上下大小调节
+    stackCircle.backgroundImage = canvas.getImage();
+
+    stackCircle.setPadding(20, 0, 0, 0);
+    stackCircle.addSpacer();
+    const icon = data.urlIcon
+        ? &#123;image: data.icon&#125;
+        : SFSymbol.named(data.icon);
+    const imageIcon = stackCircle.addImage(icon.image);
+    imageIcon.tintColor = this.iconColor;
+    imageIcon.imageSize = new Size(14, 13);
+    // canvas.drawImageInRect(icon.image, new Rect(110, 80, 60, 60));
+    stackCircle.addSpacer();
+
+    stack.addSpacer(5);
+    const stackDesc = stack.addStack();
+    stackDesc.size = new Size(74, 69);//横向间隔调整
+    stackDesc.centerAlignContent();
+    stackDesc.layoutVertically();
+    stackDesc.addSpacer(10);
+    const textLabel = this.textFormat.defaultText;
+    textLabel.size = 13;
+    textLabel.color = this.textColor2;
+    this.provideText(data.label, stackDesc, textLabel);
+    stackDesc.addSpacer(10);
+
+    const stackDescFooter = stackDesc.addStack();
+    stackDescFooter.centerAlignContent();
+    const textCount = this.textFormat.title;
+    textCount.size = 16;
+    textCount.color = this.textColor1;
+    this.provideText(`$&#123;data.count&#125;`, stackDescFooter, textCount);
+    stackDescFooter.addSpacer(2);
+    this.provideText(data.unit, stackDescFooter, textLabel);
+  &#125;;
+
+  renderSmall = async (w) =&gt; &#123;
+    w.setPadding(5, 5, 5, 5);
+    const stackBody = w.addStack();
+    stackBody.layoutVertically();
+    const stackTop = stackBody.addStack();
+    this.setCircleText(stackTop, this.phoneBill);
+    const stackBottom = stackBody.addStack();
+    this.setCircleText(stackBottom, this.flow);
+
+    const stackFooter = stackBody.addStack();
+    stackFooter.addSpacer();
+    const text = this.textFormat.defaultText;
+    text.color = new Color(&#39;#aaa&#39;);
+    this.provideText(
+        `电信更新：$&#123;this.arrUpdateTime[2]&#125;:$&#123;this.arrUpdateTime[3]&#125;`,
+        stackFooter,
+        text,
+    );
+    stackFooter.addSpacer();
+    return w;
+  &#125;;
+
+  renderMedium = async (w) =&gt; &#123;
+    const stackBody = w.addStack();
+    stackBody.layoutVertically();
+    const stackTop = stackBody.addStack();
+    this.setCircleText(stackTop, this.phoneBill);
+    this.setCircleText(stackTop, this.flow);
+    const stackBottom = stackBody.addStack();
+    this.setCircleText(stackBottom, this.voice);
+    this.updateTime.icon = await this.$request.get(
+        this.updateTime.urlIcon,
+        &#39;IMG&#39;,
+    );
+    this.setCircleText(stackBottom, this.updateTime);
+    return w;
+  &#125;;
+
+  renderLarge = async (w) =&gt; &#123;
+    return await this.renderMedium(w);
+  &#125;;
+
+  renderWebView = async () =&gt; &#123;
+    const webView = new WebView();
+    const url = &#39;https://e.189.cn/index.do&#39;;
+    await webView.loadURL(url);
+    await webView.present(false);
+
+    const request = new Request(this.fetchUri.detail);
+    request.method = &#39;POST&#39;;
+    const response = await request.loadJSON();
+    console.log(response);
+    if (response.result === -10001) &#123;
+      const index = await this.generateAlert(&#39;未获取到用户信息&#39;, [
+        &#39;取消&#39;,
+        &#39;重试&#39;,
+      ]);
+      if (index === 0) return;
+      await this.renderWebView();
+    &#125; else &#123;
+      const cookies = request.response.cookies;
+      let cookie = [];
+      cookie = cookies.map((item) =&gt; `$&#123;item.name&#125;=$&#123;item.value&#125;`);
+      cookie = cookie.join(&#39;; &#39;);
+      this.settings.cookie = cookie;
+      this.saveSettings();
+    &#125;
+  &#125;;
+
+  Run() &#123;
+    if (config.runsInApp) &#123;
+      const widgetInitConfig = &#123;cookie: &#39;china_telecom_cookie&#39;&#125;;
+      this.registerAction(&#39;颜色配置&#39;, async () =&gt; &#123;
+        await this.setAlertInput(
+            `$&#123;this.name&#125;颜色配置`,
+            &#39;进度条颜色|底圈颜色\n图标颜色|比值颜色|值颜色&#39;,
+            &#123;
+              step1: &#39;进度颜色 1&#39;,
+              step2: &#39;进度颜色 2&#39;,
+              step3: &#39;进度颜色 3&#39;,
+              step4: &#39;进度颜色 4&#39;,
+              inner: &#39;底圈颜色&#39;,
+              icon: &#39;图标颜色&#39;,
+              percent: &#39;比值颜色&#39;,
+              value: &#39;值颜色&#39;,
+            &#125;,
+        );
+      &#125;);
+      this.registerAction(&#39;账号设置&#39;, async () =&gt; &#123;
+        const index = await this.generateAlert(&#39;设置账号信息&#39;, [
+          &#39;取消&#39;,
+          &#39;网站登录&#39;,
+        ]);
+        if (index === 0) return;
+        await this.renderWebView();
+      &#125;);
+      this.registerAction(&#39;代理缓存&#39;, async () =&gt; &#123;
+        await this.setCacheBoxJSData(widgetInitConfig);
+      &#125;);
+      this.registerAction(&#39;基础设置&#39;, this.setWidgetConfig);
+    &#125;
+    const &#123;
+      step1,
+      step2,
+      step3,
+      step4,
+      inner,
+      icon,
+      percent,
+      value,
+      // authToken,
+      cookie,
+    &#125; = this.settings;
+    this.fgCircleColor = inner ? new Color(inner) : this.fgCircleColor;
+    this.textColor1 = value ? new Color(value) : this.textColor1;
+    this.phoneBill.circleColor = step1 ? new Color(step1) : this.circleColor1;
+    this.flow.circleColor = step2 ? new Color(step2) : this.circleColor2;
+    this.voice.circleColor = step3 ? new Color(step3) : this.circleColor3;
+    this.updateTime.circleColor = step4 ? new Color(step4) : this.circleColor4;
+
+    this.iconColor = icon ? new Color(icon) : this.iconColor;
+    this.percentColor = percent ? new Color(percent) : this.percentColor;
+
+    this.cookie = cookie;
+    if (this.cookie) this.options.headers.cookie = this.cookie;
+    // this.authToken = authToken;
+    // if (this.authToken) this.options.headers.authToken = this.authToken;
+  &#125;
+
+  /**
+   * 渲染函数，函数名固定
+   * 可以根据 this.widgetFamily 来判断小组件尺寸，以返回不同大小的内容
+   */
+  async render() &#123;
+    await this.init();
+    const widget = new ListWidget();
+    widget.setPadding(0, 0, 0, 0);
+    await this.getWidgetBackgroundImage(widget);
+    if (this.widgetFamily === &#39;medium&#39;) &#123;
+      return await this.renderMedium(widget);
+    &#125; else if (this.widgetFamily === &#39;large&#39;) &#123;
+      return await this.renderLarge(widget);
+    &#125; else &#123;
+      return await this.renderSmall(widget);
+    &#125;
+  &#125;
+&#125;
+
+// @组件代码结束
+// await Runing(Widget, &quot;&quot;, false); // 正式环境
+await Runing(Widget, args.widgetParameter, false); //远程开发环境
+</code></pre><p><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/A822A1B2-80E7-46B3-B3EC-AD2142797155_L0_001_origin.IMG_0452.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/A822A1B2-80E7-46B3-B3EC-AD2142797155_L0_001_origin.IMG_0452.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg" alt="如图所示"><br>新建完成后点击运行，先登录你的天翼账号，然后它就会自动获取登录信息。注意登录信息有时效性，电信的一次登录可以用一星期，时间还算比较长，比较实用。移动和联通也有，但是移动和联通用不了两天又要重新登录。有时候早上登录晚上就又要重新弄，所以不太适合。<br>点击账号设置，登录天翼账号。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/894DB470-A312-4C87-B9D4-C3D6B49DF266_L0_001_origin.IMG_0453.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/894DB470-A312-4C87-B9D4-C3D6B49DF266_L0_001_origin.IMG_0453.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4F1A6420-AFA8-41BB-954F-B904E3803555_L0_001_origin.IMG_0454.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/4F1A6420-AFA8-41BB-954F-B904E3803555_L0_001_origin.IMG_0454.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"><br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/230D9AFD-6309-4AAD-8E49-0E994730602B_L0_001_origin.IMG_0455.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/230D9AFD-6309-4AAD-8E49-0E994730602B_L0_001_origin.IMG_0455.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"></p><h3 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h3><p>成功获取到登录信息后就可以添加小组件了。<br><img src="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/1E0B6D95-B12F-4B7C-8285-D8415F982909_L0_001_origin.IMG_0456.PNG" class="lazyload placeholder" data-srcset="https://cdn.jsdelivr.net/gh/Goopher97/tuchuang@master/img/1E0B6D95-B12F-4B7C-8285-D8415F982909_L0_001_origin.IMG_0456.PNG" srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3/img/placeholder/c617bfd2497fcea598e621413e315c368f8d8e.svg"></p><div class="footer"><div class="copyright"><blockquote><p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p><p>本文永久链接是：<a href="https://goopher.tk/posts/29954.html">https://goopher.tk/posts/29954.html</a></p></blockquote></div></div><div class="article-meta" id="bottom"><div class="new-meta-box"><div class="new-meta-item wordcount"><a class="notlink"><i class="fad fa-keyboard fa-fw" aria-hidden="true"></i><p>字数：8k字</p></a></div><div class="new-meta-item readtime"><a class="notlink"><i class="fad fa-hourglass-half fa-fw" aria-hidden="true"></i><p>时长：44分钟</p></a></div><div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-09T13:11:37+00:00"><a class="notlink"><i class="fad fa-edit fa-fw" aria-hidden="true"></i><p>更新于：2021年5月9日</p></a></div><div class="new-meta-item share -mob-share-list"><div class="-mob-share-list share-body"></div></div></div></div><div class="prev-next"><a class="prev" href="/posts/32053.html"><p class="title"><i class="fad fa-chevron-left" aria-hidden="true"></i>黑苹果基础之efi驱动</p><p class="content">什么是 efi 驱动即在 EFI/OC/Drivers 下的 efi 文件，在选用必要的 efi 驱动前需要先了解每个 efi 驱动的作用。一般来说会用到的也就其中几个。 各个 efi 驱动的作...</p></a><a class="next" href="/posts/50728.html"><p class="title">Switch模拟器Yuzu<i class="fad fa-chevron-right" aria-hidden="true"></i></p><p class="content">前言玩腻了安卓模拟器，虚拟机的话可以尝试一下这款Switch模拟器。不过，这个对于配置的要求有一些高。 简介Yuzu支持nps xci格式的Switch游戏包，不支持nsz等格式的游戏，要运行n...</p></a></div></article><article class="post white-box reveal shadow" id="comments"><p ct><i class="fad fa-comments"></i> 评论</p><div id="twikoo_container"><i class="fad fa-cog fa-spin fa-fw fa-2x"></i></div></article></div><aside class="l_side"><section class="widget toc-wrapper shadow desktop mobile" id="toc-div"><header><i class="fad fa-list fa-fw" aria-hidden="true"></i> <span class="name">本文目录</span></header><div class="content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E9%9C%80%E8%A6%81%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BB%B6%E4%BB%A3%E7%A0%81"><span class="toc-text">寻找需要的小组件代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E4%BF%A1%E5%B0%8F%E7%BB%84%E4%BB%B6"><span class="toc-text">电信小组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E7%94%B5%E4%BF%A1%E5%B0%8F%E7%BB%84%E4%BB%B6"><span class="toc-text">新建电信小组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%88%90"><span class="toc-text">完成</span></a></li></ol></li></ol></div></section></aside><script>window.pdata={},pdata.ispage=!0,pdata.postTitle="使用Scriptable创建小组件",pdata.commentPath="",pdata.commentPlaceholder="";var l_header=document.getElementById("l_header");l_header.classList.add("show");var cover_wrapper=document.querySelector(".cover-wrapper");cover_wrapper.id="none",cover_wrapper.style.display="none"</script></div><footer class="footer clearfix"><br><br><div class="aplayer-container"><meting-js theme="#1BCDFC" autoplay="false" volume="0.7" loop="all" order="list" fixed="false" list-max-height="320px" server="netease" type="playlist" id="827912183" list-folded="true"></meting-js></div><br><div class="social-wrapper"><a href="/atom.xml" class="social fad fa-rss-square flat-btn" target="_blank" rel="external nofollow noopener noreferrer"></a><a href="mailto:1520396767@qq.com" class="social fad fa-envelope flat-btn" target="_blank" rel="external nofollow noopener noreferrer"></a><a href="https://github.com/Goopher97" class="social fad fa-code-branch flat-btn" target="_blank" rel="external nofollow noopener noreferrer"></a><a href="https://t.me/GOOPHER99" class="social fad fa-paper-plane flat-btn" target="_blank" rel="external nofollow noopener noreferrer"></a></div><div><p><a href="https://icp.gov.moe" target="_blank" rel="external nofollow noopener noreferrer">萌ICP备</a> <a href="https://icp.gov.moe/?keyword=20210308" target="_blank" rel="external nofollow noopener noreferrer">20210308号</a></p></div><div class="copyright"><p><a href="/">Copyright © 2020-2021 Powered by GOOPHER</a></p></div><div><p>博客内容遵循 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p></div></footer><a id="s-top" class="fad fa-arrow-up fa-fw" href="javascript:void(0)"></a></div></div><div><script>function VPjax(){function e(e,t){this.name=t||e.name,this.run=()=>{e()}}this.list=[],this.start=()=>{for(var e=0;e<this.list.length;e++)this.list[e].run()},this.push=(t,n)=>{var i=new e(t,n);this.list.push(i)}}function loadScript(e,t){setTimeout((function(){var n=document.getElementsByTagName("head")[0]||document.documentElement,i=document.createElement("script");i.setAttribute("type","text/javascript"),t&&(i.onload=t),i.setAttribute("src",e),n.appendChild(i)}))}window.volantis={},window.volantis.loadcss=document.getElementById("loadcss"),volantis.pjax={},volantis.pjax.method={complete:new VPjax,error:new VPjax,send:new VPjax},volantis.pjax={...volantis.pjax,push:volantis.pjax.method.complete.push,error:volantis.pjax.method.error.push,send:volantis.pjax.method.send.push};var loadCSS=function(e,t,n,i){var o,a=window.document,s=a.createElement("link");if(t)o=t;else{var r=(a.body||a.getElementsByTagName("head")[0]).childNodes;o=r[r.length-1]}var d=a.styleSheets;if(i)for(var l in i)i.hasOwnProperty(l)&&s.setAttribute(l,i[l]);s.rel="stylesheet",s.href=e,s.media="only x",function e(t){if(a.body)return t();setTimeout((function(){e(t)}))}((function(){o.parentNode.insertBefore(s,t?o:o.nextSibling)}));var u=function(e){for(var t=s.href,n=d.length;n--;)if(d[n].href===t)return e();setTimeout((function(){u(e)}))};function h(){s.addEventListener&&s.removeEventListener("load",h),s.media=n||"all"}return s.addEventListener&&s.addEventListener("load",h),s.onloadcssdefined=u,u(h),s}</script><script>loadCSS("https://cdn.jsdelivr.net/gh/volantis-x/cdn-fontawesome-pro@master/css/all.min.css",window.volantis.loadcss),loadCSS("https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css",window.volantis.loadcss),loadCSS("https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/vs2015.css",window.volantis.loadcss)</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script><script>function pjax_fancybox(){$(".md .gallery").find("img").each((function(){var a=document.createElement("a");$(a).attr("class","fancybox"),$(a).attr("pjax-fancybox",""),$(a).attr("href",$(this).attr("src")),$(this).attr("data-original")&&$(a).attr("href",$(this).attr("data-original")),$(a).attr("data-fancybox","images");var t="";$(this).attr("alt")&&($(a).attr("data-caption",$(this).attr("alt")),t=$(this).attr("alt"));var n=document.createElement("div");$(n).addClass("fancybox"),$(this).wrap(n);var o=document.createElement("span");$(o).addClass("image-caption"),$(o).text(t),$(this).after(o),$(this).wrap(a)})),$(".md .gallery").find("img").fancybox({selector:'[data-fancybox="images"]',hash:!1,loop:!1,closeClick:!0,helpers:{overlay:{closeClick:!0}},buttons:["zoom","close"]})}function SCload_fancybox(){0!=$(".md .gallery").find("img").length&&(loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css",document.getElementById("loadcss")),loadScript("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js",pjax_fancybox))}function Pjax_SCload_fancybox(){void 0===$.fancybox?SCload_fancybox():pjax_fancybox()}$((function(){SCload_fancybox()})),volantis.pjax.push(Pjax_SCload_fancybox),volantis.pjax.send(()=>{void 0!==$.fancybox&&$.fancybox.close()},"fancybox")</script><div id="rightmenu-wrapper"><ul class="list-v rightmenu" id="rightmenu-content"><li class="option"><a class="vlts-menu opt fix-cursor-default" id="menu-copy-text" onclick='document.execCommand("copy")'><i class="fad fa-copy fa-fw"></i> 复制文本</a><hr id="hr-text"><a class="vlts-menu opt fix-cursor-default" id="menu-copy-href"><i class="fad fa-link fa-fw"></i> 复制链接</a><a class="vlts-menu opt fix-cursor-default" id="menu-open-href"><i class="fad fa-external-link-square-alt fa-fw"></i> 在新标签页打开</a><hr id="hr-href"><a class="vlts-menu opt fix-cursor-default" id="menu-copy-src"><i class="fad fa-image fa-fw"></i> 复制图片地址</a><hr id="hr-src"></li><li class="navigation"><a class="nav icon-only fix-cursor-default" onclick="history.back()"><i class="fad fa-arrow-left fa-fw"></i></a><a class="nav icon-only fix-cursor-default" onclick="history.forward()"><i class="fad fa-arrow-right fa-fw"></i></a><a class="nav icon-only fix-cursor-default" onclick="window.location.reload()"><i class="fad fa-redo-alt fa-fw"></i></a><a class="nav icon-only fix-cursor-default" href="/"><i class="fad fa-home fa-fw"></i></a></li><hr><li><a class="vlts-menu fix-cursor-default" href="/archives/" id="archives"><i class="fad fa-archive fa-fw"></i> 归档</a></li><li><a class="vlts-menu fix-cursor-default" href="/categories/" id="categories"><i class="fad fa-folder-open fa-fw"></i> 分类</a></li><li><a class="vlts-menu fix-cursor-default" href="/tags/" id="tags"><i class="fad fa-tags fa-fw"></i> 标签</a></li><hr><li><a class="vlts-menu fix-cursor-default" onclick='document.execCommand("print")'><i class="fad fa-print fa-fw"></i> 打印页面</a></li><hr><li class="music name"><p class="nav music-title fix-cursor-default"></p></li><li class="music ctrl"><a class="nav icon-only backward fix-cursor-default" onclick="aplayerBackward()"><i class="fad fa-backward fa-fw"></i></a><a class="nav icon-only toggle fix-cursor-default" onclick="aplayerToggle()"><i class="fad fa-play fa-fw"></i></a><a class="nav icon-only forward fix-cursor-default" onclick="aplayerForward()"><i class="fad fa-forward fa-fw"></i></a></li><li class="music volume"><a class="nav volume"><div class="aplayer-volume-bar-wrap"><div class="aplayer-volume-bar fix-cursor-pointer"><div class="aplayer-volume"></div><i class="left fad fa-volume-off fa-fw"></i><i class="right fad fa-volume-up fa-fw"></i></div></div></a></li></ul></div><script>function popMenu(e){var t=document.getElementById("rightmenu-wrapper"),n=document.getElementById("rightmenu-content"),l=document.documentElement.clientWidth||document.body.clientWidth,o=document.documentElement.clientHeight||document.body.clientHeight;t.style.left=e.clientX+"px",t.style.top=e.clientY+"px",t.style.display="block",2*e.clientX>l?n.classList.add("left"):n.classList.remove("left"),2*e.clientY>o?n.classList.add("top"):n.classList.remove("top");let c=document.getElementById("hr-text"),d=document.getElementById("hr-src"),y=document.getElementById("hr-href"),s=document.getElementById("menu-copy-src");null!=s&&(e.target.currentSrc?(s.style.display="block",s.addEventListener("click",(function(t){copyString(e.target.currentSrc)}),{once:!0}),d.style.display="block"):(s.style.display="none",d.style.display="none"));let r="";if(e.path)for(i=0;i<e.path.length;i++)null!=e.path[i].href&&e.path[i].href.length>0&&(r=e.path[i].href);let u=document.getElementById("menu-copy-text");u.style.display="none",c.style.display="none",0==r.length&&window.getSelection().toString()&&(u.style.display="block",c.style.display="block");let m=document.getElementById("menu-open-href");null!=m&&(r.length>0?(m.style.display="block",m.addEventListener("click",(function(e){window.open(r)}),{once:!0}),y.style.display="block"):(m.style.display="none",y.style.display="none"));let a=document.getElementById("menu-copy-href");return null!=a&&(r.length>0?(a.style.display="block",a.addEventListener("click",(function(e){copyString(r)}),{once:!0})):a.style.display="none"),volantis.APlayerLoaded&&checkAPlayer(),!1}function hideMenu(){document.getElementById("rightmenu-wrapper").style.display="none"}function copyString(e){const t=document.createElement("input");t.setAttribute("readonly","readonly"),document.body.appendChild(t),t.setAttribute("value",e),t.select(),document.execCommand("copy"),document.body.removeChild(t)}window.document.oncontextmenu=function(e){return!!e.ctrlKey||(!!/Android|webOS|BlackBerry/i.test(navigator.userAgent)||popMenu(e))},document.addEventListener("click",(function(e){document.getElementById("rightmenu-wrapper").style.display="none"})),document.execCommand("click")</script><script>function loadIssuesJS(){0!=$(".md").find(".issues-api").length&&loadScript("/js/issues.js")}$((function(){loadIssuesJS()})),volantis.pjax.push(()=>{"undefined"==typeof IssuesAPI&&loadIssuesJS()},"IssuesJS")</script><script defer="defer" src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazyload",threshold:0},window.addEventListener("LazyLoad::Initialized",(function(n){window.lazyLoadInstance=n.detail.instance}),!1),document.addEventListener("DOMContentLoaded",(function(){lazyLoadInstance.update()})),document.addEventListener("pjax:complete",(function(){lazyLoadInstance.update()}))</script><script>window.FPConfig={delay:0,ignoreKeywords:[],maxRPS:5,hoverDelay:25}</script><script defer="defer" src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script><script>var clipboard=new ClipboardJS(".btn-copy",{target:function(e){return e.nextElementSibling}});function wait(e,i){window.setTimeout(e,i)}function pjax_initCopyCode(){if($(".highlight .code pre").length+$(".article pre code").length!=0){var e="";e+='<button class="btn-copy" data-clipboard-snippet="">',e+='<i class="fad fa-copy"></i><span>COPY</span>',e+="</button>",$(".highlight .code pre").before(e),$(".article pre code").before(e),clipboard.off("success").on("success",(function(e){$.message({title:"复制成功",message:"代码已复制，请遵守相关授权协议。",type:"success"});let i=$(e.trigger);i.addClass("copied");let a=$(i.find("i"));a.removeClass("fa-copy"),a.addClass("fa-check-circle");let t=$(i.find("span"));t[0].innerText="COPIED",wait((function(){a.removeClass("fa-check-circle"),a.addClass("fa-copy"),t[0].innerText="COPY"}),2e3)})),clipboard.off("error").on("error",(function(e){e.clearSelection();let i=$(e.trigger);i.addClass("copy-failed");let a=$(i.find("i"));a.removeClass("fa-copy"),a.addClass("fa-times-circle");let t=$(i.find("span"));t[0].innerText="COPY FAILED",wait((function(){a.removeClass("fa-times-circle"),a.addClass("fa-copy"),t[0].innerText="COPY"}),2e3)}))}}$((function(){pjax_initCopyCode()})),volantis.pjax.push(pjax_initCopyCode)</script><script type="text/javascript">function pjax_scrollrebeal(){ScrollReveal().reveal(".l_main .reveal",{distance:"32px",duration:"800",interval:"20",scale:"1",easing:"ease-out"})}loadScript("https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"),$((function(){var e=setInterval((function(){"block"==$("#safearea").css("display")&&"undefined"!=typeof ScrollReveal&&(clearInterval(e),pjax_scrollrebeal())}),100)})),volantis.pjax.push(pjax_scrollrebeal)</script><script>let APlayerController=new Object;APlayerController.id="827912183",APlayerController.volume="0.7",APlayerController.autoPlay="false",loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css",window.volantis.loadcss),loadScript("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"),window.volantis.APlayerLoaded=0;var checkAPlayer=setInterval((function(){window.APlayer&&"block"==$("#safearea").css("display")&&(clearInterval(checkAPlayer),window.volantis.APlayerLoaded||window.MetingJSElement||(window.volantis.APlayerLoaded=1,loadScript("https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js")))}),2500);loadScript("/js/aplayer.js")</script><script>function load_twikoo(){loadScript("https://cdn.jsdelivr.net/npm/twikoo@1.2.0",pjax_twikoo)}function pjax_twikoo(){if(!document.querySelectorAll("#twikoo_container")[0])return;let o=pdata.commentPath;if(0==o.length){o=""||"decodeURI(window.location.pathname)"}twikoo.init(Object.assign({js:"https://cdn.jsdelivr.net/npm/twikoo@1.2.0",path:null,envId:"blog-pinglun-2g53xix7f6d80de3"},{el:"#twikoo_container",path:o}))}$((function(){document.querySelectorAll("#twikoo_container")[0]&&load_twikoo()})),volantis.pjax.push(()=>{"undefined"==typeof twikoo?load_twikoo():pjax_twikoo()},"twikoo")</script><script src="/js/app.js"></script><script>const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/",ROOT="/".endsWith("/")?"/":"//";function listenSearch(){customSearch=new HexoSearch({imagePath:SearchServiceimagePath})}function setSearchService(){listenSearch()}$(".input.u-search-input").one("focus",(function(){loadScript("/js/search/hexo.js",setSearchService)}))</script><script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script><script type="text/javascript">$((function(){Waves.attach(".flat-btn",["waves-button"]),Waves.attach(".float-btn",["waves-button","waves-float"]),Waves.attach(".float-btn-light",["waves-button","waves-float","waves-light"]),Waves.attach(".flat-box",["waves-block"]),Waves.attach(".float-box",["waves-block","waves-float"]),Waves.attach(".waves-image"),Waves.init()}))</script><script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script><script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script><script>hljs.initHighlightingOnLoad()</script><script>hljs.initLineNumbersOnLoad({singleLine:!0})</script><script>volantis.pjax.push(()=>{document.querySelectorAll("pre code").forEach(l=>{hljs.highlightBlock(l),hljs.lineNumbersBlock(l,{singleLine:!0})})},"highlightjs")</script><script defer="defer">const LCCounter={app_id:"88VF8qbtua27z8uu7fGyEnBx-MdYXbMMI",app_key:"3Xpflps7YyY9D46NwqVrvEP1",custom_api_server:"",getRecord:(e,t,r)=>new Promise((function(n,o){e("get","/classes/Counter?where="+encodeURIComponent(JSON.stringify({url:t}))).then(e=>e.json()).then(({results:i,code:s,error:a})=>{if(401===s)throw a;if(i&&i.length>0){var l=i[0];n(l)}else e("post","/classes/Counter",{url:t,title:r,times:0}).then(e=>e.json()).then((e,t)=>{if(t)throw t;n(e)}).catch(e=>{console.error("Failed to create",e),o(e)})}).catch(e=>{console.error("LeanCloud Counter Error:",e),o(e)})})),increment:(e,t)=>new Promise((function(r,n){e("post","/batch",{requests:t}).then(e=>{if((e=e.json()).error)throw e.error;r(e)}).catch(e=>{console.error("Failed to save visitor count",e),n(e)})})),buildIncrement:e=>({method:"PUT",path:"/1.1/classes/Counter/"+e,body:{times:{__op:"Increment",amount:1}}}),validUV(){var e="LeanCloudUVTimestamp",t=localStorage.getItem(e);return!(t&&(new Date).getTime()-parseInt(t)<=864e5)&&(localStorage.setItem(e,(new Date).getTime().toString()),!0)},addCount(e){var t=[],r=[],n=document.querySelector("#lc-sv"),o=this.getRecord(e,"https://goopher.tk/#lc-sv","Visits").then(e=>{r.push(this.buildIncrement(e.objectId));var t=document.querySelectorAll("#lc-sv #number");t.length>0&&t.forEach((t,r,o)=>{t.innerText=e.times+1,n&&(n.style.display="inline")})});t.push(o);var s=document.querySelector("#lc-uv"),a=this.getRecord(e,"https://goopher.tk/#lc-uv","Visitors").then(e=>{var t=this.validUV();t&&r.push(this.buildIncrement(e.objectId));var n=document.querySelectorAll("#lc-uv #number");n.length>0&&n.forEach((r,n,o)=>{r.innerText=e.times+(t?1:0),s&&(s.style.display="inline")})});t.push(a);var l=document.querySelectorAll("#lc-pv");for(l.length,i=0;i<l.length;i++){let n=l[i],o=n.getAttribute("data-title");var h="https://goopher.tk"+n.getAttribute("data-path");if(h){var c=this.getRecord(e,h,o).then(e=>{let t=window.location.pathname;if(t.includes("index.html")&&(t=t.substring(0,t.lastIndexOf("index.html"))),n.getAttribute("data-path")==t&&r.push(this.buildIncrement(e.objectId)),n){var o=n.querySelector("#lc-pv #number");o&&(n.getAttribute("data-path")==t?o.innerText=(e.times||0)+1:o.innerText=e.times||0,n.style.display="inline")}});t.push(c)}}Promise.all(t).then(()=>{r.length>0&&this.increment(e,r)})},fetchData(e){this.addCount((t,r,n)=>fetch(`${e}/1.1${r}`,{method:t,headers:{"X-LC-Id":this.app_id,"X-LC-Key":this.app_key,"Content-Type":"application/json"},body:JSON.stringify(n)}))},refreshCounter(){var e="-MdYXbMMI"!==this.app_id.slice(-9)?this.custom_api_server:`https://${this.app_id.slice(0,8).toLowerCase()}.api.lncldglobal.com`;e?this.fetchData(e):fetch("https://app-router.leancloud.cn/2/route?appId="+this.app_id).then(e=>e.json()).then(({api_server:e})=>{this.fetchData("https://"+e)})}};LCCounter.refreshCounter(),document.addEventListener("pjax:complete",(function(){LCCounter.refreshCounter()}))</script><script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Colsrch/CDN@master/judge_time/js.js"></script><script>const rootElement=document.documentElement,darkModeStorageKey="user-color-scheme",rootElementDarkModeAttributeName="data-user-color-scheme",setLS=(e,t)=>{localStorage.setItem(e,t)},removeLS=e=>{localStorage.removeItem(e)},getLS=e=>localStorage.getItem(e),getModeFromCSSMediaQuery=()=>window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",resetRootDarkModeAttributeAndLS=()=>{var e;rootElement.removeAttribute("data-user-color-scheme"),e=darkModeStorageKey,localStorage.removeItem(e)},validColorModeKeys={dark:!0,light:!0},applyCustomDarkModeSettings=e=>{const t=e||getLS(darkModeStorageKey);t===getModeFromCSSMediaQuery()?resetRootDarkModeAttributeAndLS():validColorModeKeys[t]?rootElement.setAttribute("data-user-color-scheme",t):resetRootDarkModeAttributeAndLS()},invertDarkModeObj={dark:"light",light:"dark"},toggleCustomDarkMode=()=>{let e=getLS(darkModeStorageKey);if(validColorModeKeys[e])e=invertDarkModeObj[e];else{if(null!==e)return;e=invertDarkModeObj[getModeFromCSSMediaQuery()]}var t,o;return t=darkModeStorageKey,o=e,localStorage.setItem(t,o),e};var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");function bindToggleButton(){btn.on("click",e=>{const t=toggleCustomDarkMode();applyCustomDarkModeSettings(t)})}function adjust_time(e,t,o,r,s,a){const i=document.documentElement;var n=e.split(":");if(2!=n.length)return!1;var g=t.split(":");if(2!=g.length)return!1;var l=o.split(":");if(2!=g.length)return!1;var m=r.split(":");if(2!=g.length)return!1;var d=s.split(":");if(2!=g.length)return!1;var u=a.split(":");if(2!=g.length)return!1;var c=new Date,k=new Date,M=new Date,h=new Date,p=new Date,S=new Date,b=new Date;c.setHours(n[0]),c.setMinutes(n[1]),k.setHours(g[0]),k.setMinutes(g[1]),h.setHours(l[0]),h.setMinutes(l[1]),p.setHours(m[0]),p.setMinutes(m[1]),S.setHours(d[0]),S.setMinutes(d[1]),b.setHours(u[0]),b.setMinutes(u[1]),$.getJSON("https://v1.hitokoto.cn",(function(e){if(M.getTime()-c.getTime()>0&&M.getTime()-k.getTime()<0){var t="",o="";if(M.getTime()-h.getTime()<0?t="早安":M.getTime()-p.getTime()<0?t="上午好":M.getTime()-S.getTime()<0?(t="中午好",o="<br>要注意休息哦~"):t="下午好",i.getAttribute("data-user-color-scheme","dark")){$.message({title:"操作通知",message:t+"，已自动为您切换为日间模式。<br>"+e.hitokoto+o,type:"success"});const r=toggleCustomDarkMode();applyCustomDarkModeSettings(r)}if(i.getAttribute("data-user-color-scheme","light"))return $.message({title:t,message:e.hitokoto+o,type:"info"}),!0;if(!window.matchMedia("(prefers-color-scheme: dark)").matches)return $.message({title:t,message:e.hitokoto+o,type:"info"}),!0;{$.message({title:"操作通知",message:t+"，已自动为您切换为日间模式。<br>"+e.hitokoto+o,type:"success"});const r=toggleCustomDarkMode();applyCustomDarkModeSettings(r)}}else{var r="",s="";if(b.getTime()-M.getTime()<0||M.getTime()-c.getTime()<0?(r="夜深了",s="<br>该睡觉啦~"):(r="晚上好",s="<br>吃晚饭了吗？要注意眼睛哦。"),i.getAttribute("data-user-color-scheme","light")){$.message({title:"操作通知",message:r+"，已自动为您切换为夜间模式。<br>"+e.hitokoto+s,type:"success"});const t=toggleCustomDarkMode();applyCustomDarkModeSettings(t)}if(i.getAttribute("data-user-color-scheme","dark"))return $.message({title:r,message:e.hitokoto+s,type:"info"}),!0;if(window.matchMedia("(prefers-color-scheme: dark)").matches)return $.message({title:r,message:e.hitokoto+s,type:"info"}),!0;{$.message({title:"操作通知",message:r+"，已自动为您切换为夜间模式。<br>"+e.hitokoto+s,type:"success"});const t=toggleCustomDarkMode();applyCustomDarkModeSettings(t)}}}))}applyCustomDarkModeSettings(),document.addEventListener("DOMContentLoaded",bindToggleButton),volantis.pjax.push(bindToggleButton),volantis.pjax.send(()=>{btn.unbind("click")},"toggle-mode-btn-unbind"),navigator.geolocation&&navigator.geolocation.getCurrentPosition((function(e){var t=computeSunRiseSunSet(e.coords.latitude,e.coords.longitude,8);console.log(t.str),adjust_time(t.strSunRise,t.strSunSet,"08:00","12:00","14:00","23:00")}),(function(e){throw adjust_time("7:00","17:30","08:00","12:00","14:00","23:00"),console.log("未允许获取地理位置，使用默认配置时间"),e.message}))</script><script>function listennSidebarTOC(){const e=document.querySelectorAll(".toc li");if(!e.length)return;const t=[...e].map(e=>{const t=e.querySelector(".toc-link"),n=document.getElementById(decodeURI(t.getAttribute("href")).replace("#",""));return t.addEventListener("click",e=>{e.preventDefault(),window.scrollTo({top:n.offsetTop+100,behavior:"smooth"})}),n});!function n(o){o=Math.floor(o+1e4);let r=new IntersectionObserver((r,c)=>{let i=document.documentElement.scrollHeight+100;if(i>o)return c.disconnect(),void n(i);let l=function(e){let n=0,o=e[n];if(o.boundingClientRect.top>0)return n=t.indexOf(o.target),0===n?0:n-1;for(;n<e.length;n++){if(!(e[n].boundingClientRect.top<=0))return t.indexOf(o.target);o=e[n]}return t.indexOf(o.target)}(r);!function(e){if(e.classList.contains("active-current"))return;document.querySelectorAll(".toc .active").forEach(e=>{e.classList.remove("active","active-current")}),e.classList.add("active","active-current");let t=e.parentNode;for(;!t.matches(".toc");)t.matches("li")&&t.classList.add("active"),t=t.parentNode}(e[l])},{rootMargin:o+"px 0px -100% 0px",threshold:0});t.forEach(e=>{e&&r.observe(e)})}(document.documentElement.scrollHeight)}document.addEventListener("DOMContentLoaded",listennSidebarTOC),document.addEventListener("pjax:success",listennSidebarTOC)</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><div class="pjax-animate"><script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script><div id="loading-bar-wrapper"><script>NProgress.configure({parent:"#loading-bar-wrapper",trickleSpeed:100})</script></div><script>window.ShowLoading=function(){NProgress.start()},window.HideLoading=function(){NProgress.done()}</script><script>volantis.pjax.push(window.HideLoading,"HideLoading"),volantis.pjax.send(window.ShowLoading,"ShowLoading"),volantis.pjax.error(window.HideLoading,"HideLoading")</script></div><script>var pjax;document.addEventListener("DOMContentLoaded",(function(){pjax=new Pjax({elements:'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',selectors:["title","#pjax-container","#pjax-header-nav-list"],cacheBust:!1,timeout:5e3})})),document.addEventListener("pjax:send",(function(e){try{var n=window.location.pathname,t=e.triggerElement.href,o=["/bilibili/","/talk/","/bb/","/photos/"];""!=o[0]&&o.forEach(e=>{-1==n.indexOf(e)&&-1==t.indexOf(e)||(window.location.href=t)})}catch(e){}window.subData=null,volantis.$switcher.removeClass("active"),volantis.$header.removeClass("z_search-open"),volantis.$wrapper.removeClass("sub"),volantis.$topBtn.unbind("click"),$(".menu a").unbind("click"),$(window).unbind("resize"),$(window).unbind("scroll"),$(document).unbind("scroll"),$(document).unbind("click"),$("body").unbind("click"),volantis.pjax.method.send.start()})),document.addEventListener("pjax:complete",(function(){$(".nav-main").find(".list-v").not(".menu-phone").removeAttr("style",""),$(".menu-phone.list-v").removeAttr("style",""),$("script[data-pjax], .pjax-reload script").each((function(){$(this).parent().append($(this).remove())}));try{volantis.pjax.method.complete.start()}catch(e){console.log(e)}})),document.addEventListener("pjax:error",(function(e){volantis.pjax.method.error.start(),window.location.href=e.triggerElement.href}))</script></div><script async>window.onload=function(){var e=document.createElement("script"),t=document.getElementsByTagName("script")[0];e.type="text/javascript",e.async=!0,e.src="/sw-register.js?v="+Date.now(),t.parentNode.insertBefore(e,t)}</script></body></html>
